@@ -5,9 +5,9 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
- *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,12 +17,12 @@
 
 package org.apache.linkis.entrance.interceptor.impl
 
-import org.apache.linkis.common.utils.Logging
+import org.apache.linkis.common.utils.{CodeAndRunTypeUtils, Logging}
 import org.apache.linkis.entrance.conf.EntranceConfiguration
+import org.apache.linkis.entrance.errorcode.EntranceErrorCodeSummary._
 import org.apache.linkis.entrance.exception.DangerousGramsCheckException
 import org.apache.linkis.entrance.interceptor.EntranceInterceptor
 import org.apache.linkis.governance.common.entity.job.JobRequest
-import org.apache.linkis.governance.common.paser.CodeType
 import org.apache.linkis.manager.label.entity.engine.EngineType
 import org.apache.linkis.manager.label.utils.LabelUtil
 
@@ -30,33 +30,37 @@ import java.lang
 
 class ShellDangerousGrammerInterceptor extends EntranceInterceptor with Logging {
 
-  private val shellDangerousGrammerCheckSwitch = EntranceConfiguration.SHELL_DANGER_CHECK_SWITCH.getValue
-  private val shellDangerCode = EntranceConfiguration.SHELL_DANGER_USAGE.getValue.split(",")
+  private val shellDangerousGrammerCheckSwitch =
+    EntranceConfiguration.SHELL_DANGER_CHECK_SWITCH.getValue
+
+  private val shellDangerCode = EntranceConfiguration.SHELL_DANGER_USAGE.getValue
   private val shellWhiteCodes = EntranceConfiguration.SHELL_WHITE_USAGE.getValue
 
-  info(s"shellDangerousGrammerCheckSwitch : ${shellDangerousGrammerCheckSwitch}")
-  if (shellDangerousGrammerCheckSwitch) {
-    info(s"SHELL DANGER USAGE ${shellDangerCode}")
-    info(s"SHELL White USAGE ${shellWhiteCodes}")
-  }
+  logger.info(s"shellDangerousGrammerCheckSwitch : ${shellDangerousGrammerCheckSwitch}")
 
+  if (shellDangerousGrammerCheckSwitch) {
+    logger.info(s"SHELL DANGER USAGE ${shellDangerCode}")
+    logger.info(s"SHELL White USAGE ${shellWhiteCodes}")
+  }
 
   def shellWhiteUsage(shellContent: String): Boolean = {
     val shellLines = shellContent.split("\n")
     var signature: Boolean = false
     shellLines foreach { shellLine =>
-      shellLine.split(";").foreach(inner => {
-        val shellCommand: String = inner.trim.split(" ")(0)
-        if (shellWhiteCodes.split(",").contains(shellCommand)) {
-          signature = true
-        }
-      })
+      shellLine
+        .split(";")
+        .foreach(inner => {
+          val shellCommand: String = inner.trim.split(" ")(0)
+          if (shellWhiteCodes.split(",").contains(shellCommand)) {
+            signature = true
+          }
+        })
     }
     signature
   }
 
   /**
-   * check dander shell usage
+   * check danger shell usage
    *
    * @param shellContent
    * @return
@@ -69,11 +73,10 @@ class ShellDangerousGrammerInterceptor extends EntranceInterceptor with Logging 
         signature = true
       } else {
         val shellCommands = shellLine.trim.split(" ")
-        shellCommands foreach {
-          shellCommand =>
-            if (shellDangerCode.contains(shellCommand)) {
-              signature = true
-            }
+        shellCommands foreach { shellCommand =>
+          if (shellDangerCode.split(",").contains(shellCommand)) {
+            signature = true
+          }
         }
       }
     }
@@ -81,30 +84,31 @@ class ShellDangerousGrammerInterceptor extends EntranceInterceptor with Logging 
   }
 
   /**
-   * The apply function is to supplement the information of the incoming parameter task, making the content of this task more complete.
-   *   * Additional information includes: database information supplement, custom variable substitution, code check, limit limit, etc.
-   * apply函数是对传入参数task进行信息的补充，使得这个task的内容更加完整。
-   * 补充的信息包括: 数据库信息补充、自定义变量替换、代码检查、limit限制等
-   *
+   * Shell dangerous syntax judgment
    * @param jobRequest
-   * @param logAppender Used to cache the necessary reminder logs and pass them to the upper layer(用于缓存必要的提醒日志，传给上层)
+   * @param logAppender
+   *
    * @return
    */
   override def apply(jobRequest: JobRequest, logAppender: lang.StringBuilder): JobRequest = {
     if (!shellDangerousGrammerCheckSwitch) return jobRequest
 
     val codeType = LabelUtil.getCodeType(jobRequest.getLabels)
+    val languageType = CodeAndRunTypeUtils.getLanguageTypeByCodeType(codeType)
     val engineType = LabelUtil.getEngineType(jobRequest.getLabels)
-    if (CodeType.Shell.equals(CodeType.getType(codeType)) || EngineType.SHELL.equals(EngineType.mapStringToEngineType(engineType))) {
-      info(s"GET REQUEST CODE_TYPE ${codeType} and ENGINE_TYPE ${EngineType}")
+    if (
+        CodeAndRunTypeUtils.LANGUAGE_TYPE_SHELL.equals(languageType) || EngineType.SHELL.equals(
+          EngineType.mapStringToEngineType(engineType)
+        )
+    ) {
+      logger.info(s"GET REQUEST CODE_TYPE ${codeType} and ENGINE_TYPE ${EngineType}")
       if (shellContainDangerUsage(jobRequest.getExecutionCode)) {
-        throw  DangerousGramsCheckException("Shell code contains blacklisted code(shell中包含黑名单代码)")
-      } /*else if (!shellWhiteUsage(jobRequest.getExecutionCode)) {
-        throw  DangerousGramsCheckException("The shell code is not in the whitelist code(shell代码不在白名单中)")
-      }*/
+        throw DangerousGramsCheckException(SHELL_BLACKLISTED_CODE.getErrorDesc)
+      }
       jobRequest
     } else {
       jobRequest
     }
   }
+
 }

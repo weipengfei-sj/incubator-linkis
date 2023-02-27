@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *   http://www.apache.org/licenses/LICENSE-2.0
+ *    http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -28,39 +28,43 @@ import org.apache.linkis.cli.core.exception.error.CommonErrMsg;
 import java.util.List;
 
 public class LinkisResultModel implements Model {
-    private LinkisResultData data;
+  private LinkisResultData data;
 
-    @Override
-    public void buildModel(Object data) {
-        if (!(data instanceof LinkisResultData)) {
-            throw new TransformerException(
-                    "TFM0010",
-                    ErrorLevel.ERROR,
-                    CommonErrMsg.TransformerException,
-                    "Failed to init LinkisResultModel: "
-                            + data.getClass().getCanonicalName()
-                            + "is not instance of \"LinkisResultData\"");
-        }
-        this.data = (LinkisResultData) data;
+  @Override
+  public void buildModel(Object data) {
+    if (!(data instanceof LinkisResultData)) {
+      throw new TransformerException(
+          "TFM0010",
+          ErrorLevel.ERROR,
+          CommonErrMsg.TransformerException,
+          "Failed to init LinkisResultModel: "
+              + data.getClass().getCanonicalName()
+              + "is not instance of \"LinkisResultData\"");
     }
+    this.data = (LinkisResultData) data;
+  }
 
-    public List<LinkisResultSet> consumeResultContent() {
-        return data.consumeResultContent();
-    }
+  public List<LinkisResultSet> consumeResultContent() {
+    return data.consumeResultContent();
+  }
 
-    public boolean resultFinReceived() {
-        return data.resultFinReceived();
-    }
+  public boolean resultFinReceived() {
+    return data.resultFinReceived();
+  }
 
-    public JobStatus getJobStatus() {
-        return data.getJobStatus();
-    }
+  public JobStatus getJobStatus() {
+    return data.getJobStatus();
+  }
 
-    public String getJobID() {
-        return data.getJobID();
-    }
+  public String getJobID() {
+    return data.getJobID();
+  }
 
-    public String getUser() {
-        return data.getUser();
-    }
+  public String getUser() {
+    return data.getUser();
+  }
+
+  public boolean hasResult() {
+    return data.hasResult();
+  }
 }

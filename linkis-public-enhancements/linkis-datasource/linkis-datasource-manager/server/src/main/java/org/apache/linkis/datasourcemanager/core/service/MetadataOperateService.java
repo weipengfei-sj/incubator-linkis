@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *   http://www.apache.org/licenses/LICENSE-2.0
+ *    http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -25,19 +25,19 @@ import java.util.Map;
 /** Metadata service */
 public interface MetadataOperateService {
 
-    /**
-     * Build connection with parameters in request
-     *
-     * @param mdRemoteServiceName metadata remote service
-     * @param dataSourceType dataSource type
-     * @param operator operate user
-     * @param connectParams parameters
-     * @throws ErrorException
-     */
-    void doRemoteConnect(
-            String mdRemoteServiceName,
-            String dataSourceType,
-            String operator,
-            Map<String, Object> connectParams)
-            throws WarnException;
+  /**
+   * Build connection with parameters in request
+   *
+   * @param mdRemoteServiceName metadata remote service
+   * @param dataSourceType dataSource type
+   * @param operator operate user
+   * @param connectParams parameters
+   * @throws ErrorException
+   */
+  void doRemoteConnect(
+      String mdRemoteServiceName,
+      String dataSourceType,
+      String operator,
+      Map<String, Object> connectParams)
+      throws WarnException;
 }

@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *   http://www.apache.org/licenses/LICENSE-2.0
+ *    http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -26,25 +26,25 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class DisplayOperFactory {
-    private static final Map<String, DisplayOperator> operatorMap = new ConcurrentHashMap<>();
+  private static final Map<String, DisplayOperator> operatorMap = new ConcurrentHashMap<>();
 
-    public static synchronized void register(PresentMode mode, DisplayOperator operator)
-            throws Exception {
-        if (operatorMap.containsKey(mode.getName())) {
-            throw new PresenterException(
-                    "PST0012",
-                    ErrorLevel.ERROR,
-                    CommonErrMsg.PresenterInitErr,
-                    "Attempting to register a duplicate DisplayOperator, name: " + mode.getName());
-        }
-        operatorMap.put(mode.getName(), operator);
+  public static synchronized void register(PresentMode mode, DisplayOperator operator)
+      throws Exception {
+    if (operatorMap.containsKey(mode.getName())) {
+      throw new PresenterException(
+          "PST0012",
+          ErrorLevel.ERROR,
+          CommonErrMsg.PresenterInitErr,
+          "Attempting to register a duplicate DisplayOperator, name: " + mode.getName());
     }
+    operatorMap.put(mode.getName(), operator);
+  }
 
-    public static synchronized void remove(PresentMode mode) {
-        operatorMap.remove(mode.getName());
-    }
+  public static synchronized void remove(PresentMode mode) {
+    operatorMap.remove(mode.getName());
+  }
 
-    public static DisplayOperator getDisplayOper(PresentMode mode) {
-        return operatorMap.get(mode.getName());
-    }
+  public static DisplayOperator getDisplayOper(PresentMode mode) {
+    return operatorMap.get(mode.getName());
+  }
 }

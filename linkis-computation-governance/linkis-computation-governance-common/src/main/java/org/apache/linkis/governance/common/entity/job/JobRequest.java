@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *   http://www.apache.org/licenses/LICENSE-2.0
+ *    http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -30,191 +30,201 @@ import java.util.Map;
  */
 public class JobRequest {
 
-    private Long id;
-    private String reqId;
-    private String submitUser;
-    private String executeUser;
-    private Map<String, String> source;
-    private String executionCode;
-    private List<Label<?>> labels;
-    private Map<String, Object> params;
-    private String progress;
-    private String status;
-    private String logPath;
-    private Integer errorCode;
-    private String errorDesc;
-    private Date createdTime;
-    private Date updatedTime;
-    private String instances;
-    /** result location */
-    private String resultLocation;
+  private Long id;
+  private String reqId;
+  private String submitUser;
+  private String executeUser;
+  private Map<String, String> source;
+  private String executionCode;
+  private List<Label<?>> labels;
+  private Map<String, Object> params;
+  private String progress;
+  private String status;
+  private String logPath;
+  private Integer errorCode;
+  private String errorDesc;
+  private Date createdTime;
+  private Date updatedTime;
+  private String instances;
+  /** result location */
+  private String resultLocation;
 
-    private Map<String, Object> metrics = new HashMap<>();
+  private String observeInfo;
 
-    public Long getId() {
-        return id;
-    }
+  private Map<String, Object> metrics = new HashMap<>();
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+  public Long getId() {
+    return id;
+  }
 
-    public String getReqId() {
-        return reqId;
-    }
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-    public void setReqId(String reqId) {
-        this.reqId = reqId;
-    }
+  public String getReqId() {
+    return reqId;
+  }
 
-    public String getSubmitUser() {
-        return submitUser;
-    }
+  public void setReqId(String reqId) {
+    this.reqId = reqId;
+  }
 
-    public void setSubmitUser(String submitUser) {
-        this.submitUser = submitUser;
-    }
+  public String getSubmitUser() {
+    return submitUser;
+  }
 
-    public String getExecuteUser() {
-        return executeUser;
-    }
+  public void setSubmitUser(String submitUser) {
+    this.submitUser = submitUser;
+  }
 
-    public void setExecuteUser(String executeUser) {
-        this.executeUser = executeUser;
-    }
+  public String getExecuteUser() {
+    return executeUser;
+  }
 
-    public Map<String, String> getSource() {
-        return source;
-    }
+  public void setExecuteUser(String executeUser) {
+    this.executeUser = executeUser;
+  }
 
-    public void setSource(Map<String, String> source) {
-        this.source = source;
-    }
+  public Map<String, String> getSource() {
+    return source;
+  }
 
-    public String getExecutionCode() {
-        return executionCode;
-    }
+  public void setSource(Map<String, String> source) {
+    this.source = source;
+  }
 
-    public void setExecutionCode(String executionCode) {
-        this.executionCode = executionCode;
-    }
+  public String getExecutionCode() {
+    return executionCode;
+  }
 
-    public List<Label<?>> getLabels() {
-        return labels;
-    }
+  public void setExecutionCode(String executionCode) {
+    this.executionCode = executionCode;
+  }
 
-    public void setLabels(List<Label<?>> labels) {
-        this.labels = labels;
-    }
+  public List<Label<?>> getLabels() {
+    return labels;
+  }
 
-    public Map<String, Object> getParams() {
-        return params;
-    }
+  public void setLabels(List<Label<?>> labels) {
+    this.labels = labels;
+  }
 
-    public void setParams(Map<String, Object> params) {
-        this.params = params;
-    }
+  public Map<String, Object> getParams() {
+    return params;
+  }
 
-    public String getProgress() {
-        return progress;
-    }
+  public void setParams(Map<String, Object> params) {
+    this.params = params;
+  }
 
-    public void setProgress(String progress) {
-        this.progress = progress;
-    }
+  public String getProgress() {
+    return progress;
+  }
 
-    public String getStatus() {
-        return status;
-    }
+  public void setProgress(String progress) {
+    this.progress = progress;
+  }
 
-    public void setStatus(String status) {
-        this.status = status;
-    }
+  public String getStatus() {
+    return status;
+  }
 
-    public String getLogPath() {
-        return logPath;
-    }
+  public void setStatus(String status) {
+    this.status = status;
+  }
 
-    public void setLogPath(String logPath) {
-        this.logPath = logPath;
-    }
+  public String getLogPath() {
+    return logPath;
+  }
 
-    public Integer getErrorCode() {
-        return errorCode;
-    }
+  public void setLogPath(String logPath) {
+    this.logPath = logPath;
+  }
 
-    public void setErrorCode(Integer errorCode) {
-        this.errorCode = errorCode;
-    }
+  public Integer getErrorCode() {
+    return errorCode;
+  }
 
-    public String getErrorDesc() {
-        return errorDesc;
-    }
+  public void setErrorCode(Integer errorCode) {
+    this.errorCode = errorCode;
+  }
 
-    public void setErrorDesc(String errorDesc) {
-        this.errorDesc = errorDesc;
-    }
+  public String getErrorDesc() {
+    return errorDesc;
+  }
 
-    public Date getCreatedTime() {
-        return createdTime;
-    }
+  public void setErrorDesc(String errorDesc) {
+    this.errorDesc = errorDesc;
+  }
 
-    public void setCreatedTime(Date createdTime) {
-        this.createdTime = createdTime;
-    }
+  public Date getCreatedTime() {
+    return createdTime;
+  }
 
-    public Date getUpdatedTime() {
-        return updatedTime;
-    }
+  public void setCreatedTime(Date createdTime) {
+    this.createdTime = createdTime;
+  }
 
-    public void setUpdatedTime(Date updatedTime) {
-        this.updatedTime = updatedTime;
-    }
+  public Date getUpdatedTime() {
+    return updatedTime;
+  }
 
-    public String getInstances() {
-        return instances;
-    }
+  public void setUpdatedTime(Date updatedTime) {
+    this.updatedTime = updatedTime;
+  }
 
-    public void setInstances(String instances) {
-        this.instances = instances;
-    }
+  public String getInstances() {
+    return instances;
+  }
 
-    public Map<String, Object> getMetrics() {
-        return metrics;
-    }
+  public void setInstances(String instances) {
+    this.instances = instances;
+  }
 
-    public void setMetrics(Map<String, Object> metrics) {
-        this.metrics = metrics;
-    }
+  public Map<String, Object> getMetrics() {
+    return metrics;
+  }
 
-    public String getResultLocation() {
-        return resultLocation;
-    }
+  public void setMetrics(Map<String, Object> metrics) {
+    this.metrics = metrics;
+  }
 
-    public void setResultLocation(String resultLocation) {
-        this.resultLocation = resultLocation;
-    }
+  public String getResultLocation() {
+    return resultLocation;
+  }
 
-    @Override
-    public String toString() {
-        return "JobRequest{"
-                + "id="
-                + id
-                + ", reqId='"
-                + reqId
-                + '\''
-                + ", submitUser='"
-                + submitUser
-                + '\''
-                + ", executeUser='"
-                + executeUser
-                + '\''
-                + ", labels="
-                + labels
-                + ", params="
-                + params
-                + ", status="
-                + status
-                + '}';
-    }
+  public void setResultLocation(String resultLocation) {
+    this.resultLocation = resultLocation;
+  }
+
+  public String getObserveInfo() {
+    return observeInfo;
+  }
+
+  public void setObserveInfo(String observeInfo) {
+    this.observeInfo = observeInfo;
+  }
+
+  @Override
+  public String toString() {
+    return "JobRequest{"
+        + "id="
+        + id
+        + ", reqId='"
+        + reqId
+        + '\''
+        + ", submitUser='"
+        + submitUser
+        + '\''
+        + ", executeUser='"
+        + executeUser
+        + '\''
+        + ", labels="
+        + labels
+        + ", params="
+        + params
+        + ", status="
+        + status
+        + '}';
+  }
 }

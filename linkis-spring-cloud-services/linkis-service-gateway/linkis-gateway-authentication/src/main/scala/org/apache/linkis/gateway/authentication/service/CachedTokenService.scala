@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *   http://www.apache.org/licenses/LICENSE-2.0
+ *    http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -17,20 +17,25 @@
 
 package org.apache.linkis.gateway.authentication.service
 
-import java.util.concurrent.{ExecutionException, TimeUnit}
-import com.google.common.cache.{CacheBuilder, CacheLoader, LoadingCache}
-import org.apache.linkis.common.exception.ErrorException
 import org.apache.linkis.common.utils.Utils
-import org.apache.linkis.gateway.authentication.bo.Token
-import org.apache.linkis.gateway.authentication.exception.TokenNotExistException
-import org.apache.linkis.gateway.authentication.bo.impl.TokenImpl
 import org.apache.linkis.gateway.authentication.bo.{Token, User}
+import org.apache.linkis.gateway.authentication.bo.impl.TokenImpl
 import org.apache.linkis.gateway.authentication.conf.TokenConfiguration
 import org.apache.linkis.gateway.authentication.dao.TokenDao
 import org.apache.linkis.gateway.authentication.entity.TokenEntity
-import org.apache.linkis.gateway.authentication.exception.{TokenAuthException, TokenNotExistException}
+import org.apache.linkis.gateway.authentication.errorcode.LinkisGwAuthenticationErrorCodeSummary._
+import org.apache.linkis.gateway.authentication.exception.{
+  TokenAuthException,
+  TokenNotExistException
+}
+import org.apache.linkis.gateway.authentication.exception.TokenNotExistException
+
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
+
+import java.util.concurrent.{ExecutionException, TimeUnit}
+
+import com.google.common.cache.{CacheBuilder, CacheLoader, LoadingCache}
 
 @Service
 class CachedTokenService extends TokenService {
@@ -41,19 +46,18 @@ class CachedTokenService extends TokenService {
   private val tokenCache: LoadingCache[String, Token] = CacheBuilder.newBuilder
     .maximumSize(TokenConfiguration.TOKEN_CACHE_MAX_SIZE)
     .refreshAfterWrite(TokenConfiguration.TOKEN_CACHE_EXPIRE_HOURS, TimeUnit.HOURS)
-    .build(
-      new CacheLoader[String, Token]() {
-        @Override
-        def load(tokenName: String): Token = {
-          val tokenEntityList: java.util.List[TokenEntity] = tokenDao.selectTokenByName(tokenName)
-          if (tokenEntityList != null && tokenEntityList.size != 0) {
-            new TokenImpl().convertFrom(tokenEntityList.get(0))
-          } else {
-            throw new TokenNotExistException(15204, s"Invalid Token")
-          }
+    .build(new CacheLoader[String, Token]() {
+
+      override def load(tokenName: String): Token = {
+        val tokenEntity: TokenEntity = tokenDao.selectTokenByName(tokenName)
+        if (tokenEntity != null) {
+          new TokenImpl().convertFrom(tokenEntity)
+        } else {
+          throw new TokenNotExistException(INVALID_TOKEN.getErrorCode, INVALID_TOKEN.getErrorDesc)
         }
       }
-    );
+
+    });
 
 //  def setTokenDao(tokenDao: TokenDao): Unit = {
 //    this.tokenDao = tokenDao
@@ -100,15 +104,24 @@ class CachedTokenService extends TokenService {
 
   private def loadTokenFromCache(tokenName: String): Token = {
     if (tokenName == null) {
-      throw new TokenAuthException(15205, "Token is null!")
+      throw new TokenAuthException(TOKEN_IS_NULL.getErrorCode, TOKEN_IS_NULL.getErrorDesc)
     }
-    Utils.tryCatch(tokenCache.get(tokenName))(
-      t => t match {
-        case x: ExecutionException => x.getCause match {
-          case _: TokenNotExistException => null
-          case _ => throw new TokenAuthException(15200, "Failed to load token from DB into cache!")
-        }
-        case _ => throw new TokenAuthException(15200, "Failed to load token from DB into cache!")
+    Utils.tryCatch(tokenCache.get(tokenName))(t =>
+      t match {
+        case x: ExecutionException =>
+          x.getCause match {
+            case _: TokenNotExistException => null
+            case _ =>
+              throw new TokenAuthException(
+                FAILED_TO_LOAD_TOKEN.getErrorCode,
+                FAILED_TO_LOAD_TOKEN.getErrorDesc
+              )
+          }
+        case _ =>
+          throw new TokenAuthException(
+            FAILED_TO_LOAD_TOKEN.getErrorCode,
+            FAILED_TO_LOAD_TOKEN.getErrorDesc
+          )
       }
     )
   }
@@ -142,16 +155,20 @@ class CachedTokenService extends TokenService {
     var ok: Boolean = true
     if (!isTokenValid(tmpToken)) {
       ok = false
-      throw new TokenAuthException(15201, "Token is not valid or stale!")
+      throw new TokenAuthException(
+        TOKEN_VALID_OR_STALE.getErrorCode,
+        TOKEN_VALID_OR_STALE.getErrorDesc
+      )
     }
     if (!isTokenAcceptableWithUser(tmpToken, userName)) {
       ok = false
-      throw new TokenAuthException(15202, "Illegal TokenUser for Token!")
+      throw new TokenAuthException(ILLEGAL_TOKENUSER.getErrorCode, ILLEGAL_TOKENUSER.getErrorDesc)
     }
     if (!isTokenAcceptableWithHost(tmpToken, host)) {
       ok = false
-      throw new TokenAuthException(15203, "Illegal Host for Token!")
+      throw new TokenAuthException(ILLEGAL_HOST.getErrorCode, ILLEGAL_HOST.getErrorDesc)
     }
     ok
   }
+
 }

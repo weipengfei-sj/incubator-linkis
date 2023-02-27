@@ -17,18 +17,22 @@
 
 package org.apache.linkis.computation.client.operator.impl
 
-import java.util
-
 import org.apache.linkis.computation.client.once.result.EngineConnOperateResult
 import org.apache.linkis.computation.client.operator.OnceJobOperator
 
-class EngineConnMetricsOperator extends OnceJobOperator[util.Map[String, Object]] {
-  override protected def resultToObject(result: EngineConnOperateResult): util.Map[String, Object] = {
+import java.util
+
+class EngineConnMetricsOperator extends OnceJobOperator[util.Map[String, AnyRef]] {
+
+  override protected def resultToObject(
+      result: EngineConnOperateResult
+  ): util.Map[String, AnyRef] = {
     result.getAs("metrics")
   }
 
   override def getName: String = EngineConnMetricsOperator.OPERATOR_NAME
 }
+
 object EngineConnMetricsOperator {
   val OPERATOR_NAME = "engineConnMetrics"
 }

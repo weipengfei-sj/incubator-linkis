@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *   http://www.apache.org/licenses/LICENSE-2.0
+ *    http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -18,25 +18,25 @@
 package org.apache.linkis.cli.common.entity.command;
 
 public interface CmdOption<T> extends Cloneable {
-    String getParamName();
+  String getParamName();
 
-    String getKeyPrefix();
+  String getKeyPrefix();
 
-    String getKey();
+  String getKey();
 
-    String getDescription();
+  String getDescription();
 
-    boolean isOptional();
+  boolean isOptional();
 
-    String getRawVal();
+  String getRawVal();
 
-    T getDefaultValue();
+  T getDefaultValue();
 
-    T getValue();
+  T getValue();
 
-    void setValueWithStr(String value);
+  void setValueWithStr(String value);
 
-    boolean hasVal();
+  boolean hasVal();
 
-    CmdOption<T> clone() throws CloneNotSupportedException;
+  CmdOption<T> clone() throws CloneNotSupportedException;
 }

@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *   http://www.apache.org/licenses/LICENSE-2.0
+ *    http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -24,43 +24,43 @@ import org.apache.linkis.cs.listener.event.enumeration.OperateType;
 
 public class DefaultContextKeyEvent implements ContextKeyEvent {
 
-    private ContextID contextID;
+  private ContextID contextID;
 
-    private ContextKeyValue contextKeyValue;
+  private ContextKeyValue contextKeyValue;
 
-    private ContextKeyValue oldValue;
+  private ContextKeyValue oldValue;
 
-    private OperateType operateType;
+  private OperateType operateType;
 
-    public ContextID getContextID() {
-        return contextID;
-    }
+  public ContextID getContextID() {
+    return contextID;
+  }
 
-    public void setContextID(ContextID contextID) {
-        this.contextID = contextID;
-    }
+  public void setContextID(ContextID contextID) {
+    this.contextID = contextID;
+  }
 
-    public ContextKeyValue getContextKeyValue() {
-        return contextKeyValue;
-    }
+  public ContextKeyValue getContextKeyValue() {
+    return contextKeyValue;
+  }
 
-    public void setContextKeyValue(ContextKeyValue contextKeyValue) {
-        this.contextKeyValue = contextKeyValue;
-    }
+  public void setContextKeyValue(ContextKeyValue contextKeyValue) {
+    this.contextKeyValue = contextKeyValue;
+  }
 
-    public OperateType getOperateType() {
-        return operateType;
-    }
+  public OperateType getOperateType() {
+    return operateType;
+  }
 
-    public void setOperateType(OperateType operateType) {
-        this.operateType = operateType;
-    }
+  public void setOperateType(OperateType operateType) {
+    this.operateType = operateType;
+  }
 
-    public ContextKeyValue getOldValue() {
-        return oldValue;
-    }
+  public ContextKeyValue getOldValue() {
+    return oldValue;
+  }
 
-    public void setOldValue(ContextKeyValue oldValue) {
-        this.oldValue = oldValue;
-    }
+  public void setOldValue(ContextKeyValue oldValue) {
+    this.oldValue = oldValue;
+  }
 }

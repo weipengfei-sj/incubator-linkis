@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *   http://www.apache.org/licenses/LICENSE-2.0
+ *    http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -20,25 +20,25 @@ package org.apache.linkis.cli.application.observer.event;
 import org.apache.linkis.cli.application.observer.listener.LinkisClientListener;
 
 public abstract class SingleObserverEvent implements LinkisClientEvent {
-    private LinkisClientListener observer;
+  private LinkisClientListener observer;
 
-    @Override
-    public boolean isRegistered() {
-        return observer != null;
-    }
+  @Override
+  public boolean isRegistered() {
+    return observer != null;
+  }
 
-    @Override
-    public void register(LinkisClientListener observer) {
-        this.observer = observer;
-    }
+  @Override
+  public void register(LinkisClientListener observer) {
+    this.observer = observer;
+  }
 
-    @Override
-    public void unRegister(LinkisClientListener observer) {
-        this.observer = null;
-    }
+  @Override
+  public void unRegister(LinkisClientListener observer) {
+    this.observer = null;
+  }
 
-    @Override
-    public void notifyObserver(LinkisClientEvent event, Object message) {
-        observer.update(event, message);
-    }
+  @Override
+  public void notifyObserver(LinkisClientEvent event, Object message) {
+    observer.update(event, message);
+  }
 }

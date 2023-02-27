@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *   http://www.apache.org/licenses/LICENSE-2.0
+ *    http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -22,17 +22,17 @@ import org.apache.linkis.cs.common.entity.resource.Resource;
 
 public interface ResourceContextHistory extends ContextHistory {
 
-    Resource getResource();
+  Resource getResource();
 
-    void setResource(Resource resource);
+  void setResource(Resource resource);
 
-    @Override
-    default ContextType getContextType() {
-        return ContextType.RESOURCE;
-    };
+  @Override
+  default ContextType getContextType() {
+    return ContextType.RESOURCE;
+  };
 
-    @Override
-    default void setContextType(ContextType contextType) {
-        // nothing to do
-    };
+  @Override
+  default void setContextType(ContextType contextType) {
+    // nothing to do
+  };
 }

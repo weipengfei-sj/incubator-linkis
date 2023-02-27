@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *   http://www.apache.org/licenses/LICENSE-2.0
+ *    http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -24,54 +24,54 @@ import org.apache.linkis.cli.common.entity.operator.JobOperator;
 import org.apache.linkis.cli.common.entity.present.PresentWay;
 
 public abstract class AbstractJob implements Job {
-    protected String cid;
-    protected CmdType cmdType;
-    protected JobSubType subType;
-    protected JobOperator operator;
-    private PresentWay presentWay;
+  protected String cid;
+  protected CmdType cmdType;
+  protected JobSubType subType;
+  protected JobOperator operator;
+  private PresentWay presentWay;
 
-    @Override
-    public String getCid() {
-        return cid;
-    }
+  @Override
+  public String getCid() {
+    return cid;
+  }
 
-    public void setCid(String cid) {
-        this.cid = cid;
-    }
+  public void setCid(String cid) {
+    this.cid = cid;
+  }
 
-    @Override
-    public CmdType getCmdType() {
-        return cmdType;
-    }
+  @Override
+  public CmdType getCmdType() {
+    return cmdType;
+  }
 
-    public void setCmdType(CmdType cmdType) {
-        this.cmdType = cmdType;
-    }
+  public void setCmdType(CmdType cmdType) {
+    this.cmdType = cmdType;
+  }
 
-    @Override
-    public JobSubType getSubType() {
-        return subType;
-    }
+  @Override
+  public JobSubType getSubType() {
+    return subType;
+  }
 
-    public void setSubType(JobSubType subType) {
-        this.subType = subType;
-    }
+  public void setSubType(JobSubType subType) {
+    this.subType = subType;
+  }
 
-    @Override
-    public JobOperator getJobOperator() {
-        return operator;
-    }
+  @Override
+  public JobOperator getJobOperator() {
+    return operator;
+  }
 
-    public void setOperator(JobOperator operator) {
-        this.operator = operator;
-    }
+  public void setOperator(JobOperator operator) {
+    this.operator = operator;
+  }
 
-    @Override
-    public PresentWay getPresentWay() {
-        return presentWay;
-    }
+  @Override
+  public PresentWay getPresentWay() {
+    return presentWay;
+  }
 
-    public void setPresentWay(PresentWay presentWay) {
-        this.presentWay = presentWay;
-    }
+  public void setPresentWay(PresentWay presentWay) {
+    this.presentWay = presentWay;
+  }
 }

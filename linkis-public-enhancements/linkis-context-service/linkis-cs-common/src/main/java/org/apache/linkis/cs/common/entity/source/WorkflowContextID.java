@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *   http://www.apache.org/licenses/LICENSE-2.0
+ *    http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -19,23 +19,23 @@ package org.apache.linkis.cs.common.entity.source;
 
 public interface WorkflowContextID extends ContextID {
 
-    String getWorkSpace();
+  String getWorkSpace();
 
-    void setWorkSpace(String workSpace);
+  void setWorkSpace(String workSpace);
 
-    String getProject();
+  String getProject();
 
-    void setProject(String project);
+  void setProject(String project);
 
-    String getFlow();
+  String getFlow();
 
-    void setFlow(String flow);
+  void setFlow(String flow);
 
-    String getVersion();
+  String getVersion();
 
-    void setVersion(String version);
+  void setVersion(String version);
 
-    String getEnv();
+  String getEnv();
 
-    void setEnv(String env);
+  void setEnv(String env);
 }

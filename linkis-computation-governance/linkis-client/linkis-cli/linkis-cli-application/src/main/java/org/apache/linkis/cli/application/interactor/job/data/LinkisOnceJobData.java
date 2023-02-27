@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *   http://www.apache.org/licenses/LICENSE-2.0
+ *    http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -25,206 +25,218 @@ import java.util.List;
 
 public class LinkisOnceJobData implements LinkisJobData, LinkisLogData, LinkisResultData {
 
-    private SimpleOnceJobAdapter onceJobAdapter;
+  private SimpleOnceJobAdapter onceJobAdapter;
 
-    public SimpleOnceJobAdapter getOnceJobAdapter() {
-        return onceJobAdapter;
-    }
+  private boolean hasResult = true;
 
-    public void setOnceJobAdapter(SimpleOnceJobAdapter onceJobAdapter) {
-        this.onceJobAdapter = onceJobAdapter;
-    }
+  public SimpleOnceJobAdapter getOnceJobAdapter() {
+    return onceJobAdapter;
+  }
 
-    @Override
-    public void registerincLogListener(LinkisClientListener observer) {
-        onceJobAdapter.registerincLogListener(observer);
-    }
+  public void setOnceJobAdapter(SimpleOnceJobAdapter onceJobAdapter) {
+    this.onceJobAdapter = onceJobAdapter;
+  }
 
-    @Override
-    public void notifyLogListener() {
-        onceJobAdapter.notifyLogListener();
-    }
+  @Override
+  public void registerincLogListener(LinkisClientListener observer) {
+    onceJobAdapter.registerincLogListener(observer);
+  }
 
-    @Override
-    public boolean isIncLogMode() {
-        return onceJobAdapter.isIncLogMode();
-    }
+  @Override
+  public void notifyLogListener() {
+    onceJobAdapter.notifyLogListener();
+  }
 
-    @Override
-    public void setIncLogMode(boolean incLogMode) {
-        onceJobAdapter.setIncLogMode(incLogMode);
-    }
+  @Override
+  public boolean isIncLogMode() {
+    return onceJobAdapter.isIncLogMode();
+  }
 
-    @Override
-    public String consumeLog() {
-        return onceJobAdapter.consumeLog();
-    }
+  @Override
+  public void setIncLogMode(boolean incLogMode) {
+    onceJobAdapter.setIncLogMode(incLogMode);
+  }
 
-    public void appendLog(String log) {
-        onceJobAdapter.appendLog(log);
-    }
+  @Override
+  public String consumeLog() {
+    return onceJobAdapter.consumeLog();
+  }
 
-    @Override
-    public final String getLogPath() {
-        return onceJobAdapter.getLogPath();
-    }
+  public void appendLog(String log) {
+    onceJobAdapter.appendLog(log);
+  }
 
-    public final void setLogPath(String logPath) {
-        onceJobAdapter.setLogPath(logPath);
-    }
+  @Override
+  public final String getLogPath() {
+    return onceJobAdapter.getLogPath();
+  }
 
-    @Override
-    public Integer getNextLogLineIdx() {
-        return onceJobAdapter.getNextLogLineIdx();
-    }
+  public final void setLogPath(String logPath) {
+    onceJobAdapter.setLogPath(logPath);
+  }
 
-    public void setNextLogLineIdx(Integer nextLogLineIdx) {
-        onceJobAdapter.setNextLogLineIdx(nextLogLineIdx);
-    }
+  @Override
+  public Integer getNextLogLineIdx() {
+    return onceJobAdapter.getNextLogLineIdx();
+  }
 
-    @Override
-    public Boolean hasNextLogLine() {
-        return onceJobAdapter.hasNextLogLine();
-    }
+  public void setNextLogLineIdx(Integer nextLogLineIdx) {
+    onceJobAdapter.setNextLogLineIdx(nextLogLineIdx);
+  }
 
-    @Override
-    public void setHasNextLogLine(Boolean hasNextLogLine) {
-        onceJobAdapter.setHasNextLogLine(hasNextLogLine);
-    }
+  @Override
+  public Boolean hasNextLogLine() {
+    return onceJobAdapter.hasNextLogLine();
+  }
 
-    @Override
-    public List<LinkisResultSet> consumeResultContent() {
-        return onceJobAdapter.consumeResultContent();
-    }
+  @Override
+  public void setHasNextLogLine(Boolean hasNextLogLine) {
+    onceJobAdapter.setHasNextLogLine(hasNextLogLine);
+  }
 
-    public void appendResultContent(LinkisResultSet resultContent) {
-        onceJobAdapter.appendResultContent(resultContent);
-    }
+  @Override
+  public List<LinkisResultSet> consumeResultContent() {
+    return onceJobAdapter.consumeResultContent();
+  }
 
-    @Override
-    public Boolean hasNextResultPage() {
-        return onceJobAdapter.hasNextResultPage();
-    }
+  public void appendResultContent(LinkisResultSet resultContent) {
+    onceJobAdapter.appendResultContent(resultContent);
+  }
 
-    public void setHasNextResultPage(Boolean hasNextResultPage) {
-        onceJobAdapter.setHasNextResultPage(hasNextResultPage);
-    }
+  @Override
+  public Boolean hasNextResultPage() {
+    return onceJobAdapter.hasNextResultPage();
+  }
 
-    @Override
-    public final String getResultLocation() {
-        return onceJobAdapter.getResultLocation();
-    }
+  public void setHasNextResultPage(Boolean hasNextResultPage) {
+    onceJobAdapter.setHasNextResultPage(hasNextResultPage);
+  }
 
-    public final void setResultLocation(String resultLocation) {
-        onceJobAdapter.setResultLocation(resultLocation);
-    }
+  @Override
+  public final String getResultLocation() {
+    return onceJobAdapter.getResultLocation();
+  }
 
-    @Override
-    public String[] getResultSetPaths() {
-        return onceJobAdapter.getResultSetPaths();
-    }
+  public final void setResultLocation(String resultLocation) {
+    onceJobAdapter.setResultLocation(resultLocation);
+  }
 
-    public final void setResultSetPaths(String[] resultSetPaths) {
-        onceJobAdapter.setResultSetPaths(resultSetPaths);
-    }
+  @Override
+  public String[] getResultSetPaths() {
+    return onceJobAdapter.getResultSetPaths();
+  }
 
-    @Override
-    public void sendLogFin() {
-        onceJobAdapter.sendLogFin();
-    }
+  public final void setResultSetPaths(String[] resultSetPaths) {
+    onceJobAdapter.setResultSetPaths(resultSetPaths);
+  }
 
-    @Override
-    public boolean logFinReceived() {
-        return onceJobAdapter.logFinReceived();
-    }
+  @Override
+  public void sendLogFin() {
+    onceJobAdapter.sendLogFin();
+  }
 
-    @Override
-    public void sendResultFin() {
-        onceJobAdapter.sendResultFin();
-    }
+  @Override
+  public boolean logFinReceived() {
+    return onceJobAdapter.logFinReceived();
+  }
 
-    @Override
-    public boolean resultFinReceived() {
-        return onceJobAdapter.resultFinReceived();
-    }
+  @Override
+  public void sendResultFin() {
+    onceJobAdapter.sendResultFin();
+  }
 
-    @Override
-    public JobStatus getJobStatus() {
-        return onceJobAdapter.getJobStatus();
-    }
+  @Override
+  public boolean resultFinReceived() {
+    return onceJobAdapter.resultFinReceived();
+  }
 
-    public void setJobStatus(JobStatus jobStatus) {
-        onceJobAdapter.setJobStatus(jobStatus);
-    }
+  @Override
+  public boolean hasResult() {
+    return hasResult;
+  }
 
-    @Override
-    public String getJobID() {
-        return onceJobAdapter.getJobID();
-    }
+  @Override
+  public void setHasResult(boolean hasResult) {
+    this.hasResult = hasResult;
+  }
 
-    @Override
-    public String getUser() {
-        return onceJobAdapter.getUser();
-    }
+  @Override
+  public JobStatus getJobStatus() {
+    return onceJobAdapter.getJobStatus();
+  }
 
-    @Override
-    public String getMessage() {
-        return onceJobAdapter.getMessage();
-    }
+  public void setJobStatus(JobStatus jobStatus) {
+    onceJobAdapter.setJobStatus(jobStatus);
+  }
 
-    @Override
-    public void setMessage(String message) {
-        onceJobAdapter.setMessage(message);
-    }
+  @Override
+  public String getJobID() {
+    return onceJobAdapter.getJobID();
+  }
 
-    @Override
-    public Exception getException() {
-        return onceJobAdapter.getException();
-    }
+  @Override
+  public String getUser() {
+    return onceJobAdapter.getUser();
+  }
 
-    @Override
-    public void setException(Exception e) {
-        onceJobAdapter.setException(e);
-    }
+  @Override
+  public String getMessage() {
+    return onceJobAdapter.getMessage();
+  }
 
-    @Override
-    public String getExecID() {
-        return onceJobAdapter.getJobID();
-    } // No Need
+  @Override
+  public void setMessage(String message) {
+    onceJobAdapter.setMessage(message);
+  }
 
-    @Override
-    public float getJobProgress() {
-        return 0;
-    }
+  @Override
+  public Exception getException() {
+    return onceJobAdapter.getException();
+  }
 
-    @Override
-    public Integer getErrCode() {
-        return onceJobAdapter.getErrCode();
-    }
+  @Override
+  public void setException(Exception e) {
+    onceJobAdapter.setException(e);
+  }
 
-    @Override
-    public String getErrDesc() {
-        return onceJobAdapter.getErrDesc();
-    }
+  @Override
+  public String getExecID() {
+    return onceJobAdapter.getJobID();
+  } // No Need
 
-    @Override
-    public boolean isSuccess() {
-        return onceJobAdapter.isSuccess();
-    }
+  @Override
+  public float getJobProgress() {
+    return 0;
+  }
 
-    @Override
-    public void setSuccess(boolean success) {
-        onceJobAdapter.setSuccess(success);
-    }
+  @Override
+  public Integer getErrCode() {
+    return onceJobAdapter.getErrCode();
+  }
 
-    @Override
-    public void updateByOperResult(LinkisOperResultAdapter adapter) {
-        // No need
-    }
+  @Override
+  public String getErrDesc() {
+    return onceJobAdapter.getErrDesc();
+  }
 
-    @Override
-    public LinkisOnceJobData clone() throws CloneNotSupportedException {
-        throw new CloneNotSupportedException();
-        //        return null;
-    }
+  @Override
+  public boolean isSuccess() {
+    return onceJobAdapter.isSuccess();
+  }
+
+  @Override
+  public void setSuccess(boolean success) {
+    onceJobAdapter.setSuccess(success);
+  }
+
+  @Override
+  public void updateByOperResult(LinkisOperResultAdapter adapter) {
+    // No need
+  }
+
+  @Override
+  public LinkisOnceJobData clone() throws CloneNotSupportedException {
+    throw new CloneNotSupportedException();
+    //        return null;
+  }
 }

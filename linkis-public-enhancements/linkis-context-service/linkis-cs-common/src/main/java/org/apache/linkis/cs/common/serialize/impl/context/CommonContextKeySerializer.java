@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *   http://www.apache.org/licenses/LICENSE-2.0
+ *    http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -24,21 +24,21 @@ import org.apache.linkis.cs.common.utils.CSCommonUtils;
 
 public class CommonContextKeySerializer extends AbstractSerializer<CommonContextKey> {
 
-    @Override
-    public CommonContextKey fromJson(String json) throws CSErrorException {
-        return CSCommonUtils.gson.fromJson(json, CommonContextKey.class);
-    }
+  @Override
+  public CommonContextKey fromJson(String json) throws CSErrorException {
+    return CSCommonUtils.gson.fromJson(json, CommonContextKey.class);
+  }
 
-    @Override
-    public String getType() {
-        return "commonContextKey";
-    }
+  @Override
+  public String getType() {
+    return "commonContextKey";
+  }
 
-    @Override
-    public boolean accepts(Object obj) {
-        if (null != obj && obj instanceof CommonContextKey) {
-            return true;
-        }
-        return false;
+  @Override
+  public boolean accepts(Object obj) {
+    if (null != obj && obj instanceof CommonContextKey) {
+      return true;
     }
+    return false;
+  }
 }

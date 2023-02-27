@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *   http://www.apache.org/licenses/LICENSE-2.0
+ *    http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -21,15 +21,15 @@ import org.apache.linkis.cs.common.entity.source.ContextID;
 
 public class TestContextID implements ContextID {
 
-    String contextID;
+  String contextID;
 
-    @Override
-    public String getContextId() {
-        return contextID;
-    }
+  @Override
+  public String getContextId() {
+    return contextID;
+  }
 
-    @Override
-    public void setContextId(String contextId) {
-        this.contextID = contextId;
-    }
+  @Override
+  public void setContextId(String contextId) {
+    this.contextID = contextId;
+  }
 }

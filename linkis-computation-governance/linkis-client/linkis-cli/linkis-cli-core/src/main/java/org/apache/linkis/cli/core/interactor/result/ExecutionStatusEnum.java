@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *   http://www.apache.org/licenses/LICENSE-2.0
+ *    http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -20,15 +20,15 @@ package org.apache.linkis.cli.core.interactor.result;
 import org.apache.linkis.cli.common.entity.result.ExecutionStatus;
 
 public enum ExecutionStatusEnum implements ExecutionStatus {
-    UNDEFINED("Inited", 1),
-    SUCCEED("Succeed", 2),
-    FAILED("Failed", 3);
+  UNDEFINED("Inited", 1),
+  SUCCEED("Succeed", 2),
+  FAILED("Failed", 3);
 
-    private String name;
-    private int id;
+  private String name;
+  private int id;
 
-    ExecutionStatusEnum(String name, int id) {
-        this.name = name;
-        this.id = id;
-    }
+  ExecutionStatusEnum(String name, int id) {
+    this.name = name;
+    this.id = id;
+  }
 }

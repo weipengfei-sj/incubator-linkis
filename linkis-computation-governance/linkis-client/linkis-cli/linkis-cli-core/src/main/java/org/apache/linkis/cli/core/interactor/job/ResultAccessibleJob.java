@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *   http://www.apache.org/licenses/LICENSE-2.0
+ *    http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -21,9 +21,9 @@ import org.apache.linkis.cli.common.entity.job.Job;
 import org.apache.linkis.cli.common.entity.job.JobData;
 
 public interface ResultAccessibleJob extends Job {
-    /**
-     * Retrieve reault-set. This methods should be non-blocking and result should be appended into
-     * {@link JobData}
-     */
-    void startRetrieveResult();
+  /**
+   * Retrieve reault-set. This methods should be non-blocking and result should be appended into
+   * {@link JobData}
+   */
+  void startRetrieveResult();
 }

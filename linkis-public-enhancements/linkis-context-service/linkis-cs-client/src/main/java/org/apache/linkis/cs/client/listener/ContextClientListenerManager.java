@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *   http://www.apache.org/licenses/LICENSE-2.0
+ *    http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -22,18 +22,17 @@ import org.apache.linkis.common.listener.Event;
 /** Description: Manager的作用是为了方便用户将的 */
 public class ContextClientListenerManager {
 
-    private static ContextClientListenerBus<ContextClientListener, Event> contextClientListenerBus;
+  private static ContextClientListenerBus<ContextClientListener, Event> contextClientListenerBus;
 
-    public static ContextClientListenerBus<ContextClientListener, Event>
-            getContextClientListenerBus() {
+  public static ContextClientListenerBus<ContextClientListener, Event>
+      getContextClientListenerBus() {
+    if (contextClientListenerBus == null) {
+      synchronized (ContextClientListenerManager.class) {
         if (contextClientListenerBus == null) {
-            synchronized (ContextClientListenerManager.class) {
-                if (contextClientListenerBus == null) {
-                    contextClientListenerBus =
-                            new ContextClientListenerBus<ContextClientListener, Event>();
-                }
-            }
+          contextClientListenerBus = new ContextClientListenerBus<ContextClientListener, Event>();
         }
-        return contextClientListenerBus;
+      }
     }
+    return contextClientListenerBus;
+  }
 }

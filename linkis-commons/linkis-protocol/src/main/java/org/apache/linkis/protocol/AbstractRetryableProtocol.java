@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *   http://www.apache.org/licenses/LICENSE-2.0
+ *    http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -19,23 +19,23 @@ package org.apache.linkis.protocol;
 
 public class AbstractRetryableProtocol implements RetryableProtocol {
 
-    @Override
-    public long maxPeriod() {
-        return 3000L;
-    }
+  @Override
+  public long maxPeriod() {
+    return 3000L;
+  }
 
-    @Override
-    public Class<? extends Throwable>[] retryExceptions() {
-        return new Class[] {};
-    }
+  @Override
+  public Class<? extends Throwable>[] retryExceptions() {
+    return new Class[] {};
+  }
 
-    @Override
-    public int retryNum() {
-        return 2;
-    }
+  @Override
+  public int retryNum() {
+    return 2;
+  }
 
-    @Override
-    public long period() {
-        return 1000L;
-    }
+  @Override
+  public long period() {
+    return 1000L;
+  }
 }

@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *   http://www.apache.org/licenses/LICENSE-2.0
+ *    http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -19,35 +19,35 @@ package org.apache.linkis.cs.common.entity.metadata;
 
 public interface Partition {
 
-    Integer getLength();
+  Integer getLength();
 
-    void setLength(Integer length);
+  void setLength(Integer length);
 
-    String getName();
+  String getName();
 
-    void setName(String name);
+  void setName(String name);
 
-    String getAlias();
+  String getAlias();
 
-    void setAlias(String alias);
+  void setAlias(String alias);
 
-    String getType();
+  String getType();
 
-    void setType(String type);
+  void setType(String type);
 
-    String getComment();
+  String getComment();
 
-    void setComment(String comment);
+  void setComment(String comment);
 
-    String getExpress();
+  String getExpress();
 
-    void setExpress(String express);
+  void setExpress(String express);
 
-    String getRule();
+  String getRule();
 
-    void setRule(String rule);
+  void setRule(String rule);
 
-    Boolean getPrimary();
+  Boolean getPrimary();
 
-    void setPrimary(Boolean primary);
+  void setPrimary(Boolean primary);
 }

@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *   http://www.apache.org/licenses/LICENSE-2.0
+ *    http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -19,11 +19,8 @@ package org.apache.linkis.datasourcemanager.common.auth;
 
 import org.apache.linkis.common.conf.CommonVars;
 import org.apache.linkis.datasourcemanager.common.domain.DataSource;
-import org.apache.linkis.server.security.SecurityFilter;
 
-import org.apache.commons.lang.StringUtils;
-
-import javax.servlet.http.HttpServletRequest;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,52 +29,40 @@ import java.util.Objects;
 /** Auth context */
 public class AuthContext {
 
-    public static CommonVars<String> AUTH_ADMINISTRATOR =
-            CommonVars.apply("wds.linkis.server.dsm.auth.admin", "hadoop");
+  public static CommonVars<String> AUTH_ADMINISTRATOR =
+      CommonVars.apply("wds.linkis.server.dsm.auth.admin", "hadoop");
 
-    public static final String AUTH_SEPARATOR = ",";
+  public static final String AUTH_SEPARATOR = ",";
 
-    private static List<String> administrators = new ArrayList<>();
+  private static List<String> administrators = new ArrayList<>();
 
-    static {
-        String adminStr = AUTH_ADMINISTRATOR.getValue();
-        if (StringUtils.isNotBlank(adminStr)) {
-            for (String admin : adminStr.split(AUTH_SEPARATOR)) {
-                if (StringUtils.isNotBlank(admin)) {
-                    administrators.add(admin);
-                }
-            }
+  static {
+    String adminStr = AUTH_ADMINISTRATOR.getValue();
+    if (StringUtils.isNotBlank(adminStr)) {
+      for (String admin : adminStr.split(AUTH_SEPARATOR)) {
+        if (StringUtils.isNotBlank(admin)) {
+          administrators.add(admin);
         }
+      }
     }
+  }
 
-    /**
-     * If has permission of data source
-     *
-     * @param dataSource data source
-     * @param request request
-     * @return boolean
-     */
-    public static boolean hasPermission(DataSource dataSource, HttpServletRequest request) {
-        String username = SecurityFilter.getLoginUsername(request);
-        return hasPermission(dataSource, username);
+  public static boolean hasPermission(DataSource dataSource, String username) {
+    if (Objects.nonNull(dataSource)) {
+      String creator = dataSource.getCreateUser();
+      return (administrators.contains(username)
+          || (StringUtils.isNotBlank(creator) && username.equals(creator)));
     }
+    return false;
+  }
 
-    public static boolean hasPermission(DataSource dataSource, String username) {
-        if (Objects.nonNull(dataSource)) {
-            String creator = dataSource.getCreateUser();
-            return (administrators.contains(username)
-                    || (StringUtils.isNotBlank(creator) && username.equals(creator)));
-        }
-        return false;
-    }
-
-    /**
-     * If is admin
-     *
-     * @param username username
-     * @return boolean
-     */
-    public static boolean isAdministrator(String username) {
-        return administrators.contains(username);
-    }
+  /**
+   * If is admin
+   *
+   * @param username username
+   * @return boolean
+   */
+  public static boolean isAdministrator(String username) {
+    return administrators.contains(username);
+  }
 }

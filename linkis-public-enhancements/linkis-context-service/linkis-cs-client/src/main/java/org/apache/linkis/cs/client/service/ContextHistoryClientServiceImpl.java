@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *   http://www.apache.org/licenses/LICENSE-2.0
+ *    http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -34,37 +34,37 @@ import org.slf4j.LoggerFactory;
 
 public class ContextHistoryClientServiceImpl implements ContextHistoryClientService {
 
-    private static final Logger logger =
-            LoggerFactory.getLogger(ContextHistoryClientServiceImpl.class);
+  private static final Logger logger =
+      LoggerFactory.getLogger(ContextHistoryClientServiceImpl.class);
 
-    private ContextClient contextClient = ContextClientFactory.getOrCreateContextClient();
+  private ContextClient contextClient = ContextClientFactory.getOrCreateContextClient();
 
-    private static ContextHistoryClientService contextHistoryClientService;
+  private static ContextHistoryClientService contextHistoryClientService;
 
-    private ContextHistoryClientServiceImpl() {}
+  private ContextHistoryClientServiceImpl() {}
 
-    public static ContextHistoryClientService getInstance() {
+  public static ContextHistoryClientService getInstance() {
+    if (null == contextHistoryClientService) {
+      synchronized (ContextHistoryClientServiceImpl.class) {
         if (null == contextHistoryClientService) {
-            synchronized (ContextHistoryClientServiceImpl.class) {
-                if (null == contextHistoryClientService) {
-                    contextHistoryClientService = new ContextHistoryClientServiceImpl();
-                }
-            }
+          contextHistoryClientService = new ContextHistoryClientServiceImpl();
         }
-        return contextHistoryClientService;
+      }
     }
+    return contextHistoryClientService;
+  }
 
-    @Override
-    public void createHistory(String contextIDStr, ContextHistory history) throws CSErrorException {
-        try {
-            ContextID contextID = SerializeHelper.deserializeContextID(contextIDStr);
-            ContextValue contextValue = new CommonContextValue();
-            if (contextID instanceof CombinedNodeIDContextID) {
-                contextID = ((CombinedNodeIDContextID) contextID).getLinkisHaWorkFlowContextID();
-            }
-            contextClient.createHistory(contextID, history);
-        } catch (ErrorException e) {
-            throw new CSErrorException(ErrorCode.DESERIALIZE_ERROR, "createHistory error ", e);
-        }
+  @Override
+  public void createHistory(String contextIDStr, ContextHistory history) throws CSErrorException {
+    try {
+      ContextID contextID = SerializeHelper.deserializeContextID(contextIDStr);
+      ContextValue contextValue = new CommonContextValue();
+      if (contextID instanceof CombinedNodeIDContextID) {
+        contextID = ((CombinedNodeIDContextID) contextID).getLinkisHaWorkFlowContextID();
+      }
+      contextClient.createHistory(contextID, history);
+    } catch (ErrorException e) {
+      throw new CSErrorException(ErrorCode.DESERIALIZE_ERROR, "createHistory error ", e);
     }
+  }
 }

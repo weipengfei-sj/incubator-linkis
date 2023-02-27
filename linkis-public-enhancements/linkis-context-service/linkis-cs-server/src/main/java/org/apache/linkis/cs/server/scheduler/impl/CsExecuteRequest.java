@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *   http://www.apache.org/licenses/LICENSE-2.0
+ *    http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -24,33 +24,33 @@ import java.util.function.Consumer;
 
 public class CsExecuteRequest implements ExecuteRequest, JobToExecuteRequestConsumer<HttpJob> {
 
-    private HttpJob httpJob;
+  private HttpJob httpJob;
 
-    // TODO: 2020/3/3 变量名修改
-    private Consumer<HttpJob> jobConsumer;
+  // TODO: 2020/3/3 变量名修改
+  private Consumer<HttpJob> jobConsumer;
 
-    @Override
-    public String code() {
-        return null;
-    }
+  @Override
+  public String code() {
+    return null;
+  }
 
-    @Override
-    public HttpJob get() {
-        return this.httpJob;
-    }
+  @Override
+  public HttpJob get() {
+    return this.httpJob;
+  }
 
-    @Override
-    public void set(HttpJob httpJob) {
-        this.httpJob = httpJob;
-    }
+  @Override
+  public void set(HttpJob httpJob) {
+    this.httpJob = httpJob;
+  }
 
-    @Override
-    public Consumer<HttpJob> getConsumer() {
-        return this.jobConsumer;
-    }
+  @Override
+  public Consumer<HttpJob> getConsumer() {
+    return this.jobConsumer;
+  }
 
-    @Override
-    public void setConsuemr(Consumer<HttpJob> jobConsumer) {
-        this.jobConsumer = jobConsumer;
-    }
+  @Override
+  public void setConsuemr(Consumer<HttpJob> jobConsumer) {
+    this.jobConsumer = jobConsumer;
+  }
 }

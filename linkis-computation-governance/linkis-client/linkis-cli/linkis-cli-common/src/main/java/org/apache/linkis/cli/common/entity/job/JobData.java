@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *   http://www.apache.org/licenses/LICENSE-2.0
+ *    http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -18,17 +18,17 @@
 package org.apache.linkis.cli.common.entity.job;
 
 public interface JobData {
-    JobStatus getJobStatus();
+  JobStatus getJobStatus();
 
-    String getJobID();
+  String getJobID();
 
-    String getUser();
+  String getUser();
 
-    String getMessage();
+  String getMessage();
 
-    void setMessage(String message);
+  void setMessage(String message);
 
-    Exception getException();
+  Exception getException();
 
-    void setException(Exception e);
+  void setException(Exception e);
 }

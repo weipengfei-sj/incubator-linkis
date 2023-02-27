@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *   http://www.apache.org/licenses/LICENSE-2.0
+ *    http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -29,31 +29,31 @@ import javax.servlet.http.HttpServletRequest;
 @FeignClient(name = Constants.APPLICATION_NAME)
 public interface DataSourceRestfulRemote {
 
-    @GetMapping("/api/datasource/dbs")
-    public Message queryDatabaseInfo(HttpServletRequest req);
+  @GetMapping("/api/datasource/dbs")
+  public Message queryDatabaseInfo(HttpServletRequest req);
 
-    @GetMapping("/api/datasource/all")
-    public Message queryDbsWithTables(HttpServletRequest req);
+  @GetMapping("/api/datasource/all")
+  public Message queryDbsWithTables(HttpServletRequest req);
 
-    @GetMapping("/api/datasource/tables")
-    public Message queryTables(@RequestParam("database") String database, HttpServletRequest req);
+  @GetMapping("/api/datasource/tables")
+  public Message queryTables(@RequestParam("database") String database, HttpServletRequest req);
 
-    @GetMapping("/api/datasource/columns")
-    public Message queryTableMeta(
-            @RequestParam("database") String database,
-            @RequestParam("table") String table,
-            HttpServletRequest req);
+  @GetMapping("/api/datasource/columns")
+  public Message queryTableMeta(
+      @RequestParam("database") String database,
+      @RequestParam("table") String table,
+      HttpServletRequest req);
 
-    @GetMapping("/api/datasource/size")
-    public Message sizeOf(
-            @RequestParam("database") String database,
-            @RequestParam("table") String table,
-            @RequestParam("partition") String partition,
-            HttpServletRequest req);
+  @GetMapping("/api/datasource/size")
+  public Message sizeOf(
+      @RequestParam("database") String database,
+      @RequestParam("table") String table,
+      @RequestParam("partition") String partition,
+      HttpServletRequest req);
 
-    @GetMapping("/api/datasource/partitions")
-    public Message partitions(
-            @RequestParam("database") String database,
-            @RequestParam("table") String table,
-            HttpServletRequest req);
+  @GetMapping("/api/datasource/partitions")
+  public Message partitions(
+      @RequestParam("database") String database,
+      @RequestParam("table") String table,
+      HttpServletRequest req);
 }

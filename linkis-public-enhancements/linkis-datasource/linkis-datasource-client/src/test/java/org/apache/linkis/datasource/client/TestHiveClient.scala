@@ -69,8 +69,9 @@ object TestHiveClient {
   def testCreateDataSourceMysql: Unit = {
     val user = "hadoop"
     val system = "Linkis"
+    val dataSourceName = "for-mysql-test"
     val dataSource = new DataSource();
-    dataSource.setDataSourceName("for-hive-test")
+    dataSource.setDataSourceName(dataSourceName)
     dataSource.setDataSourceDesc("this is for hive test")
     dataSource.setCreateSystem(system)
     dataSource.setDataSourceTypeId(4L)
@@ -83,7 +84,7 @@ object TestHiveClient {
     val createDataSourceResult: CreateDataSourceResult = dataSourceclient.createDataSource(createDataSourceAction)
     val dataSourceId = createDataSourceResult.getInsertId
 
-    //set connectParams
+    // set connectParams
     val params = new util.HashMap[String, Any]
     val connectParams = new util.HashMap[String, Any]
     connectParams.put("envId", "3")
@@ -99,7 +100,7 @@ object TestHiveClient {
 
     val version: Long = updateParameterResult.getVersion
 
-    //publist dataSource version
+    // publist dataSource version
     dataSourceclient.publishDataSourceVersion(
       PublishDataSourceVersionAction.builder()
         .setDataSourceId(dataSourceId)
@@ -107,17 +108,17 @@ object TestHiveClient {
         .setVersion(version)
         .build())
 
-    //example of use
+    // example of use
     val metadataGetDatabasesAction: MetadataGetDatabasesAction = MetadataGetDatabasesAction.builder()
       .setUser(user)
-      .setDataSourceId(dataSourceId)
+      .setDataSourceName(dataSourceName)
       .setSystem(system)
       .build()
     val metadataGetDatabasesResult: MetadataGetDatabasesResult = metaDataClient.getDatabases(metadataGetDatabasesAction)
 
     val metadataGetTablesAction: MetadataGetTablesAction = MetadataGetTablesAction.builder()
       .setUser(user)
-      .setDataSourceId(dataSourceId)
+      .setDataSourceName(dataSourceName)
       .setDatabase("linkis_test_ind")
       .setSystem(system)
       .build()
@@ -127,7 +128,7 @@ object TestHiveClient {
 
     val metadataGetColumnsAction = MetadataGetColumnsAction.builder()
       .setUser(user)
-      .setDataSourceId(dataSourceId)
+      .setDataSourceName(dataSourceName)
       .setDatabase("linkis_test_ind")
       .setSystem(system)
       .setTable("test")

@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *   http://www.apache.org/licenses/LICENSE-2.0
+ *    http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -19,15 +19,15 @@ package org.apache.linkis.cs.common.entity.data;
 
 public class LinkisJobData implements JobData {
 
-    private long jobID;
+  private long jobID;
 
-    @Override
-    public long getJobID() {
-        return this.jobID;
-    }
+  @Override
+  public long getJobID() {
+    return this.jobID;
+  }
 
-    @Override
-    public void setJobID(long jobID) {
-        this.jobID = jobID;
-    }
+  @Override
+  public void setJobID(long jobID) {
+    this.jobID = jobID;
+  }
 }

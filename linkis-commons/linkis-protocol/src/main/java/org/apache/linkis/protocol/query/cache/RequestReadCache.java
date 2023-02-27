@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *   http://www.apache.org/licenses/LICENSE-2.0
+ *    http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -22,32 +22,32 @@ import org.apache.linkis.protocol.query.QueryProtocol;
 import java.util.List;
 
 public class RequestReadCache implements QueryProtocol {
-    private String executionContent;
-    private String user;
-    private Long readCacheBefore;
-    private List<String> labelsStr;
+  private String executionContent;
+  private String user;
+  private Long readCacheBefore;
+  private List<String> labelsStr;
 
-    public RequestReadCache(
-            String executionContent, String user, List<String> labelsStr, Long readCacheBefore) {
-        this.executionContent = executionContent;
-        this.user = user;
-        this.labelsStr = labelsStr;
-        this.readCacheBefore = readCacheBefore;
-    }
+  public RequestReadCache(
+      String executionContent, String user, List<String> labelsStr, Long readCacheBefore) {
+    this.executionContent = executionContent;
+    this.user = user;
+    this.labelsStr = labelsStr;
+    this.readCacheBefore = readCacheBefore;
+  }
 
-    public String getExecutionContent() {
-        return executionContent;
-    }
+  public String getExecutionContent() {
+    return executionContent;
+  }
 
-    public String getUser() {
-        return user;
-    }
+  public String getUser() {
+    return user;
+  }
 
-    public Long getReadCacheBefore() {
-        return readCacheBefore;
-    }
+  public Long getReadCacheBefore() {
+    return readCacheBefore;
+  }
 
-    public List<String> getLabelsStr() {
-        return labelsStr;
-    }
+  public List<String> getLabelsStr() {
+    return labelsStr;
+  }
 }

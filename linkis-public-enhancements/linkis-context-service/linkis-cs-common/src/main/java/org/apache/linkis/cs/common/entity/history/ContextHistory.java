@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *   http://www.apache.org/licenses/LICENSE-2.0
+ *    http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -21,15 +21,15 @@ import org.apache.linkis.cs.common.entity.enumeration.ContextType;
 
 public interface ContextHistory {
 
-    Integer getId();
+  Integer getId();
 
-    void setId(Integer id);
+  void setId(Integer id);
 
-    ContextType getContextType();
+  ContextType getContextType();
 
-    void setContextType(ContextType contextType);
+  void setContextType(ContextType contextType);
 
-    String getSource();
+  String getSource();
 
-    void setSource(String source);
+  void setSource(String source);
 }

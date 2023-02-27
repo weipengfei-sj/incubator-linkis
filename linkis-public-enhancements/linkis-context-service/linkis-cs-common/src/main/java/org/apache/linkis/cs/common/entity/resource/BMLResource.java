@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *   http://www.apache.org/licenses/LICENSE-2.0
+ *    http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -23,65 +23,65 @@ import java.util.Date;
 
 public interface BMLResource extends Resource {
 
-    @KeywordMethod
-    String getResourceId();
+  @KeywordMethod
+  String getResourceId();
 
-    String getVersion();
+  String getVersion();
 
-    String getUser();
+  String getUser();
 
-    void setUser(String user);
+  void setUser(String user);
 
-    String getSystem();
+  String getSystem();
 
-    void setSystem(String system);
+  void setSystem(String system);
 
-    Boolean getEnableFlag();
+  Boolean getEnableFlag();
 
-    void setEnableFlag(Boolean enableFlag);
+  void setEnableFlag(Boolean enableFlag);
 
-    Boolean getPrivate();
+  Boolean getPrivate();
 
-    void setPrivate(Boolean aPrivate);
+  void setPrivate(Boolean aPrivate);
 
-    String getResourceHeader();
+  String getResourceHeader();
 
-    void setResourceHeader(String resourceHeader);
+  void setResourceHeader(String resourceHeader);
 
-    @KeywordMethod
-    String getDownloadedFileName();
+  @KeywordMethod
+  String getDownloadedFileName();
 
-    void setDownloadedFileName(String downloadedFileName);
+  void setDownloadedFileName(String downloadedFileName);
 
-    String getSys();
+  String getSys();
 
-    void setSys(String sys);
+  void setSys(String sys);
 
-    Date getCreateTime();
+  Date getCreateTime();
 
-    void setCreateTime(Date createTime);
+  void setCreateTime(Date createTime);
 
-    Boolean getExpire();
+  Boolean getExpire();
 
-    void setExpire(Boolean expire);
+  void setExpire(Boolean expire);
 
-    String getExpireType();
+  String getExpireType();
 
-    void setExpireType(String expireType);
+  void setExpireType(String expireType);
 
-    String getExpireTime();
+  String getExpireTime();
 
-    void setExpireTime(String expireTime);
+  void setExpireTime(String expireTime);
 
-    Date getUpdateTime();
+  Date getUpdateTime();
 
-    void setUpdateTime(Date updateTime);
+  void setUpdateTime(Date updateTime);
 
-    String getUpdator();
+  String getUpdator();
 
-    void setUpdator(String updator);
+  void setUpdator(String updator);
 
-    Integer getMaxVersion();
+  Integer getMaxVersion();
 
-    void setMaxVersion(Integer maxVersion);
+  void setMaxVersion(Integer maxVersion);
 }

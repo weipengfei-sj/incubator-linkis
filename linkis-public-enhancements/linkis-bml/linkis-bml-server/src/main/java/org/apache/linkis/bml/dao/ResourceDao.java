@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *   http://www.apache.org/licenses/LICENSE-2.0
+ *    http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -17,38 +17,31 @@
 
 package org.apache.linkis.bml.dao;
 
-import org.apache.linkis.bml.Entity.Resource;
+import org.apache.linkis.bml.entity.Resource;
 
 import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.Update;
 
 import java.util.List;
 import java.util.Map;
 
 public interface ResourceDao {
 
-    List<Resource> getResources(Map paramMap);
+  List<Resource> getResources(Map paramMap);
 
-    void deleteResource(@Param("resourceId") String resourceId);
+  void deleteResource(@Param("resourceId") String resourceId);
 
-    void batchDeleteResources(@Param("resourceIds") List<String> resourceIds);
+  void batchDeleteResources(@Param("resourceIds") List<String> resourceIds);
 
-    long uploadResource(Resource resource);
+  long uploadResource(Resource resource);
 
-    @Select(
-            "select exists(select * from `linkis_ps_bml_resources` where resource_id = #{resourceId}  and enable_flag = 1 )")
-    int checkExists(@Param("resourceId") String resourceId);
+  int checkExists(@Param("resourceId") String resourceId);
 
-    Resource getResource(@Param("resourceId") String resourceId);
+  Resource getResource(@Param("resourceId") String resourceId);
 
-    @Select("select owner from `linkis_ps_bml_resources` where resource_id = #{resourceId} ")
-    String getUserByResourceId(@Param("resourceId") String resourceId);
+  String getUserByResourceId(@Param("resourceId") String resourceId);
 
-    @Update(
-            "update `linkis_ps_bml_resources` set owner = #{newOwner} where resource_id = #{resourceId} and owner=#{oldOwner}")
-    void changeOwner(
-            @Param("resourceId") String resourceId,
-            @Param("oldOwner") String oldOwner,
-            @Param("newOwner") String newOwner);
+  void changeOwner(
+      @Param("resourceId") String resourceId,
+      @Param("oldOwner") String oldOwner,
+      @Param("newOwner") String newOwner);
 }

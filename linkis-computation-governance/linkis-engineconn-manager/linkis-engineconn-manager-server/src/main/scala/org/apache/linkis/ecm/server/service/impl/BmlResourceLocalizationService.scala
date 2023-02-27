@@ -5,27 +5,25 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
- *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- 
+
 package org.apache.linkis.ecm.server.service.impl
 
-import java.io.File
-import java.nio.file.Paths
 import org.apache.linkis.DataWorkCloudApplication
 import org.apache.linkis.common.conf.Configuration
 import org.apache.linkis.common.io.FsPath
 import org.apache.linkis.common.utils.{Logging, Utils, ZipUtils}
-import org.apache.linkis.ecm.core.conf.ECMErrorCode
 import org.apache.linkis.ecm.core.engineconn.EngineConn
 import org.apache.linkis.ecm.core.launch.EngineConnManagerEnv
+import org.apache.linkis.ecm.errorcode.EngineconnServerErrorCodeSummary._
 import org.apache.linkis.ecm.server.conf.ECMConfiguration._
 import org.apache.linkis.ecm.server.exception.ECMErrorException
 import org.apache.linkis.ecm.server.service.{LocalDirsHandleService, ResourceLocalizationService}
@@ -38,13 +36,18 @@ import org.apache.linkis.storage.FSFactory
 import org.apache.linkis.storage.fs.FileSystem
 import org.apache.linkis.storage.utils.{FileSystemUtils, StorageUtils}
 
-import scala.collection.JavaConversions._
+import org.springframework.core.env.Environment
+
+import java.io.File
+import java.nio.file.Paths
+
+import scala.collection.JavaConverters._
 import scala.collection.mutable
 
+class BmlResourceLocalizationService extends ResourceLocalizationService with Logging {
 
-class BmlResourceLocalizationService extends ResourceLocalizationService with Logging  {
-
-  private implicit val fs: FileSystem = FSFactory.getFs(StorageUtils.FILE).asInstanceOf[FileSystem]
+  private implicit val fs: FileSystem =
+    FSFactory.getFs(StorageUtils.FILE).asInstanceOf[FileSystem]
 
   fs.init(null)
 
@@ -54,11 +57,20 @@ class BmlResourceLocalizationService extends ResourceLocalizationService with Lo
 
   private var localDirsHandleService: LocalDirsHandleService = _
 
-  def setLocalDirsHandleService(localDirsHandleService: LocalDirsHandleService): Unit = this.localDirsHandleService = localDirsHandleService
+  private var springEnv: Environment = _
 
-  override def handleInitEngineConnResources(request: EngineConnLaunchRequest, engineConn: EngineConn): Unit = {
+  def setLocalDirsHandleService(localDirsHandleService: LocalDirsHandleService): Unit =
+    this.localDirsHandleService = localDirsHandleService
+
+  def setSpringEnv(springEnv: Environment): Unit =
+    this.springEnv = springEnv
+
+  override def handleInitEngineConnResources(
+      request: EngineConnLaunchRequest,
+      engineConn: EngineConn
+  ): Unit = {
     // TODO: engineType判断是否下载到本地 unzip
-    //engine_type resourceId version判断是否更新，或者重新下载，将path给到properties
+    // engine_type resourceId version判断是否更新，或者重新下载，将path给到properties
     request match {
       case request: ProcessEngineConnLaunchRequest =>
         val files = request.bmlResources
@@ -66,25 +78,47 @@ class BmlResourceLocalizationService extends ResourceLocalizationService with Lo
         val user = request.user
         val ticketId = request.ticketId
         val engineType = LabelUtil.getEngineType(request.labels)
-        val workDir = createDirIfNotExit(localDirsHandleService.getEngineConnWorkDir(user, ticketId, engineType))
+        val workDir = createDirIfNotExit(
+          localDirsHandleService.getEngineConnWorkDir(user, ticketId, engineType)
+        )
         val emHomeDir = createDirIfNotExit(localDirsHandleService.getEngineConnManagerHomeDir)
-        val logDirs = createDirIfNotExit(localDirsHandleService.getEngineConnLogDir(user, ticketId, engineType))
-        val tmpDirs = createDirIfNotExit(localDirsHandleService.getEngineConnTmpDir(user, ticketId, engineType))
-        files.foreach(downloadBmlResource(request, linkDirsP, _, workDir))
-        engineConn.getEngineConnLaunchRunner.getEngineConnLaunch.setEngineConnManagerEnv(new EngineConnManagerEnv {
-          override val engineConnManagerHomeDir: String = emHomeDir
-          override val engineConnWorkDir: String = workDir
-          override val engineConnLogDirs: String = logDirs
-          override val engineConnTempDirs: String = tmpDirs
-          override val engineConnManagerHost: String = Utils.getComputerName
-          override val engineConnManagerPort: String = DataWorkCloudApplication.getApplicationContext.getEnvironment.getProperty("server.port")
-          override val linkDirs: mutable.HashMap[String, String] = linkDirsP
-          override val properties: Map[String, String] = Map("eureka.client.serviceUrl.defaultZone" -> ECM_EUREKA_DEFAULTZONE)
-        })
+        val logDirs = createDirIfNotExit(
+          localDirsHandleService.getEngineConnLogDir(user, ticketId, engineType)
+        )
+        val tmpDirs = createDirIfNotExit(
+          localDirsHandleService.getEngineConnTmpDir(user, ticketId, engineType)
+        )
+        files.asScala.foreach(downloadBmlResource(request, linkDirsP, _, workDir))
+        engineConn.getEngineConnLaunchRunner.getEngineConnLaunch.setEngineConnManagerEnv(
+          new EngineConnManagerEnv {
+            override val engineConnManagerHomeDir: String = emHomeDir
+            override val engineConnWorkDir: String = workDir
+            override val engineConnLogDirs: String = logDirs
+            override val engineConnTempDirs: String = tmpDirs
+            override val engineConnManagerHost: String = {
+              var hostName = Utils.getComputerName
+              val preferIpAddress = Configuration.PREFER_IP_ADDRESS
+              logger.info("preferIpAddress:" + preferIpAddress)
+              if (preferIpAddress) {
+                hostName = springEnv.getProperty("spring.cloud.client.ip-address")
+                logger.info("hostName:" + hostName)
+                logger.info(
+                  "using ip address replace hostname, because linkis.discovery.prefer-ip-address: true"
+                )
+              }
+              hostName
+            }
+            override val engineConnManagerPort: String =
+              DataWorkCloudApplication.getApplicationContext.getEnvironment.getProperty(
+                "server.port"
+              )
+            override val linkDirs: mutable.HashMap[String, String] = linkDirsP
+            override val properties: Map[String, String] = Map()
+          }
+        )
       case _ =>
     }
   }
-
 
   private val bmlResourceSuffix = ".zip"
 
@@ -97,7 +131,12 @@ class BmlResourceLocalizationService extends ResourceLocalizationService with Lo
     noSchemaPath
   }
 
-  def downloadBmlResource(request: ProcessEngineConnLaunchRequest, linkDirs: mutable.HashMap[String, String], resource: BmlResource, workDir: String): Unit = {
+  def downloadBmlResource(
+      request: ProcessEngineConnLaunchRequest,
+      linkDirs: mutable.HashMap[String, String],
+      resource: BmlResource,
+      workDir: String
+  ): Unit = {
     val resourceId = resource.getResourceId
     val version = resource.getVersion
     val user = request.user
@@ -113,49 +152,60 @@ class BmlResourceLocalizationService extends ResourceLocalizationService with Lo
         if (!fs.exists(fsPath)) resourceId.intern().synchronized {
           if (!fs.exists(fsPath)) {
             ECMUtils.downLoadBmlResourceToLocal(resource, user, fsPath.getPath)
-            val unzipDir = fsPath.getSchemaPath + File.separator + resource.getFileName.substring(0, resource.getFileName.lastIndexOf("."))
+            val unzipDir = fsPath.getSchemaPath + File.separator + resource.getFileName
+              .substring(0, resource.getFileName.lastIndexOf("."))
             FileSystemUtils.mkdirs(fs, new FsPath(unzipDir), Utils.getJvmUser)
             val path = bmlResourceDir + File.separator + resource.getFileName
-            Utils.tryCatch(ZipUtils.unzip(path, unzipDir)) {
-              t: Throwable =>
-                logger.error("Failed to unzip path", t)
-                Utils.tryAndWarn(fs.delete(fsPath))
+            Utils.tryCatch(ZipUtils.unzip(path, unzipDir)) { t: Throwable =>
+              logger.error("Failed to unzip path", t)
+              Utils.tryAndWarn(fs.delete(fsPath))
             }
             logger.info(s"Finished to download bml resource ${fsPath.getPath}")
             fs.delete(new FsPath(bmlResourceDir + File.separator + resource.getFileName))
           }
         }
-        //2.软连，并且添加到map
+        // 2.软连，并且添加到map
         val dirAndFileList = fs.listPathWithError(fsPath)
-        var paths = dirAndFileList.getFsPaths.toList
+
+        var paths = dirAndFileList.getFsPaths.asScala
+
         if (paths.exists(_.getPath.endsWith(".zip"))) {
           logger.info(s"Start to wait fs path to init ${fsPath.getPath}")
           resourceId.intern().synchronized {
             logger.info(s"Finished to wait fs path to init ${fsPath.getPath} ")
           }
-          paths = fs.listPathWithError(fsPath).getFsPaths.toList
+          paths = fs.listPathWithError(fsPath).getFsPaths.asScala
         }
         paths.foreach { path =>
-            val name = new File(path.getPath).getName
-            linkDirs.put(path.getPath, workDir + seperator + name)
+          val name = new File(path.getPath).getName
+          linkDirs.put(path.getPath, workDir + seperator + name)
         }
       case BmlResource.BmlResourceVisibility.Private =>
-        info(s"Try to download private BmlResource(resourceId: $resourceId, version: $version, fileName: ${resource.getFileName}) to path $workDir.")
+        logger.info(
+          s"Try to download private BmlResource(resourceId: $resourceId, version: $version, fileName: ${resource.getFileName}) to path $workDir."
+        )
         val fsPath = new FsPath(schema + workDir)
         if (!fs.exists(fsPath)) {
           FileSystemUtils.mkdirs(fs, fsPath, Utils.getJvmUser)
         }
         ECMUtils.downLoadBmlResourceToLocal(resource, user, fsPath.getPath)
         val filePath = schema + workDir + File.separator + resource.getFileName
-        if(resource.getFileName != null && resource.getFileName.endsWith(".zip")) {
-          info(s"Try to unzip $filePath, since the private BMLResource is a zip file.")
+        if (resource.getFileName != null && resource.getFileName.endsWith(".zip")) {
+          logger.info(s"Try to unzip $filePath, since the private BMLResource is a zip file.")
           ZipUtils.unzip(filePath, fsPath.getSchemaPath)
           fs.delete(new FsPath(filePath))
         }
-        info(s"Finished to download private BmlResource(resourceId: $resourceId, version: $version, fileName: ${resource.getFileName}) to path $filePath.")
+        logger.info(
+          s"Finished to download private BmlResource(resourceId: $resourceId, version: $version, fileName: ${resource.getFileName}) to path $filePath."
+        )
       case BmlResource.BmlResourceVisibility.Label =>
-        error(s"Not supported BmlResource visibility type: label. BmlResource: resourceId: $resourceId, version: $version, fileName: ${resource.getFileName}.")
-        throw new ECMErrorException(ECMErrorCode.EC_START_FAILED, s"Not supported BmlResource visibility type: label(不支持的 BmlResource visibility 类型：label).")
+        logger.error(
+          s"Not supported BmlResource visibility type: label. BmlResource: resourceId: $resourceId, version: $version, fileName: ${resource.getFileName}."
+        )
+        throw new ECMErrorException(
+          NOT_SUPPORTED_TYPE.getErrorCode,
+          NOT_SUPPORTED_TYPE.getErrorDesc
+        )
     }
   }
 

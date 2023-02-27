@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *   http://www.apache.org/licenses/LICENSE-2.0
+ *    http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -23,38 +23,38 @@ import org.apache.linkis.cs.listener.callback.imp.DefaultContextKeyCallbackEngin
 import org.apache.linkis.cs.listener.manager.ListenerManager;
 
 public class DefaultContextListenerManager implements ListenerManager {
-    @Override
-    public ContextAsyncListenerBus getContextAsyncListenerBus() {
-        ContextAsyncListenerBus contextAsyncListenerBus = ContextAsyncListenerBus.getInstance();
-        return contextAsyncListenerBus;
-    }
+  @Override
+  public ContextAsyncListenerBus getContextAsyncListenerBus() {
+    ContextAsyncListenerBus contextAsyncListenerBus = ContextAsyncListenerBus.getInstance();
+    return contextAsyncListenerBus;
+  }
 
-    @Override
-    public DefaultContextIDCallbackEngine getContextIDCallbackEngine() {
-        DefaultContextIDCallbackEngine instanceIdCallbackEngine =
-                DefaultContextIDCallbackEngine.getInstance();
-        return instanceIdCallbackEngine;
-    }
+  @Override
+  public DefaultContextIDCallbackEngine getContextIDCallbackEngine() {
+    DefaultContextIDCallbackEngine instanceIdCallbackEngine =
+        DefaultContextIDCallbackEngine.getInstance();
+    return instanceIdCallbackEngine;
+  }
 
-    @Override
-    public DefaultContextKeyCallbackEngine getContextKeyCallbackEngine() {
-        DefaultContextKeyCallbackEngine instanceKeyCallbackEngine =
-                DefaultContextKeyCallbackEngine.getInstance();
-        return instanceKeyCallbackEngine;
-    }
+  @Override
+  public DefaultContextKeyCallbackEngine getContextKeyCallbackEngine() {
+    DefaultContextKeyCallbackEngine instanceKeyCallbackEngine =
+        DefaultContextKeyCallbackEngine.getInstance();
+    return instanceKeyCallbackEngine;
+  }
 
-    private static DefaultContextListenerManager singleDefaultContextListenerManager = null;
+  private static DefaultContextListenerManager singleDefaultContextListenerManager = null;
 
-    private DefaultContextListenerManager() {}
+  private DefaultContextListenerManager() {}
 
-    public static DefaultContextListenerManager getInstance() {
+  public static DefaultContextListenerManager getInstance() {
+    if (singleDefaultContextListenerManager == null) {
+      synchronized (DefaultContextListenerManager.class) {
         if (singleDefaultContextListenerManager == null) {
-            synchronized (DefaultContextListenerManager.class) {
-                if (singleDefaultContextListenerManager == null) {
-                    singleDefaultContextListenerManager = new DefaultContextListenerManager();
-                }
-            }
+          singleDefaultContextListenerManager = new DefaultContextListenerManager();
         }
-        return singleDefaultContextListenerManager;
+      }
     }
+    return singleDefaultContextListenerManager;
+  }
 }

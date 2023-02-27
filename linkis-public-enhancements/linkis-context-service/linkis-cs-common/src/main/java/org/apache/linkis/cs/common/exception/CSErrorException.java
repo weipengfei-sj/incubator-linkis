@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *   http://www.apache.org/licenses/LICENSE-2.0
+ *    http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -21,12 +21,12 @@ import org.apache.linkis.common.exception.ErrorException;
 
 public class CSErrorException extends ErrorException {
 
-    public CSErrorException(int errCode, String desc) {
-        super(errCode, desc);
-    }
+  public CSErrorException(int errCode, String desc) {
+    super(errCode, desc);
+  }
 
-    public CSErrorException(int errCode, String desc, Throwable e) {
-        super(errCode, desc);
-        this.initCause(e);
-    }
+  public CSErrorException(int errCode, String desc, Throwable e) {
+    super(errCode, desc);
+    this.initCause(e);
+  }
 }

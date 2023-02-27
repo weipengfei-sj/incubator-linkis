@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *   http://www.apache.org/licenses/LICENSE-2.0
+ *    http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -18,13 +18,13 @@
 package org.apache.linkis.cli.core.present.display.data;
 
 public class StdoutDisplayData implements DisplayData {
-    private String content;
+  private String content;
 
-    public StdoutDisplayData(String content) {
-        this.content = content;
-    }
+  public StdoutDisplayData(String content) {
+    this.content = content;
+  }
 
-    public String getContent() {
-        return content;
-    }
+  public String getContent() {
+    return content;
+  }
 }

@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *   http://www.apache.org/licenses/LICENSE-2.0
+ *    http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -21,15 +21,15 @@ import java.util.Properties;
 
 public interface PropertiesReader {
 
-    String getPropsId();
+  String getPropsId();
 
-    PropertiesReader setPropsId(String identifier);
+  PropertiesReader setPropsId(String identifier);
 
-    String getPropsPath();
+  String getPropsPath();
 
-    PropertiesReader setPropsPath(String propertiesPath);
+  PropertiesReader setPropsPath(String propertiesPath);
 
-    Properties getProperties();
+  Properties getProperties();
 
-    void checkInit();
+  void checkInit();
 }

@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *   http://www.apache.org/licenses/LICENSE-2.0
+ *    http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -21,15 +21,15 @@ import org.apache.linkis.cs.common.exception.CSErrorException;
 
 public interface ContextSerializer<T> {
 
-    String getType();
+  String getType();
 
-    boolean accepts(String json);
+  boolean accepts(String json);
 
-    boolean accepts(Object obj);
+  boolean accepts(Object obj);
 
-    boolean isType(String type);
+  boolean isType(String type);
 
-    String serialize(T t) throws CSErrorException;
+  String serialize(T t) throws CSErrorException;
 
-    T deserialize(String json) throws CSErrorException;
+  T deserialize(String json) throws CSErrorException;
 }

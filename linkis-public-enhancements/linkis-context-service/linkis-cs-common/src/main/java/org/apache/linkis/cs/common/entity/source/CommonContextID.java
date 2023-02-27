@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *   http://www.apache.org/licenses/LICENSE-2.0
+ *    http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -19,31 +19,31 @@ package org.apache.linkis.cs.common.entity.source;
 
 public class CommonContextID implements ContextID {
 
-    private String contextId;
+  private String contextId;
 
-    private int contextIDType;
+  private int contextIDType;
 
-    public CommonContextID() {
-        this.contextId = "helloworld";
-    }
+  public CommonContextID() {
+    this.contextId = "helloworld";
+  }
 
-    @Override
-    public String getContextId() {
-        return this.contextId;
-    }
+  @Override
+  public String getContextId() {
+    return this.contextId;
+  }
 
-    @Override
-    public void setContextId(String contextId) {
-        this.contextId = contextId;
-    }
+  @Override
+  public void setContextId(String contextId) {
+    this.contextId = contextId;
+  }
 
-    @Override
-    public int getContextIDType() {
-        return this.contextIDType;
-    }
+  @Override
+  public int getContextIDType() {
+    return this.contextIDType;
+  }
 
-    @Override
-    public void setContextIDType(int contextIDType) {
-        this.contextIDType = contextIDType;
-    }
+  @Override
+  public void setContextIDType(int contextIDType) {
+    this.contextIDType = contextIDType;
+  }
 }

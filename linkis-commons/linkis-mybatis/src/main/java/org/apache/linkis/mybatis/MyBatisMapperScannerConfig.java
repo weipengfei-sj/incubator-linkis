@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *   http://www.apache.org/licenses/LICENSE-2.0
+ *    http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -28,14 +28,14 @@ import org.mybatis.spring.mapper.MapperScannerConfigurer;
 @Configuration
 @AutoConfigureAfter(MybatisConfigurationFactory.class)
 public class MyBatisMapperScannerConfig {
-    @Bean
-    public MapperScannerConfigurer mapperScannerConfigurer() {
-        MapperScannerConfigurer mapperScannerConfigurer = new MapperScannerConfigurer();
-        mapperScannerConfigurer.setSqlSessionFactoryBeanName("sqlSessionFactory");
-        // Each table corresponds to the XXMapper.java interface type Java file
-        // 每张表对应的XXMapper.java interface类型的Java文件
-        mapperScannerConfigurer.setBasePackage(
-                MybatisConfiguration.BDP_SERVER_MYBATIS_BASEPACKAGE.getValue());
-        return mapperScannerConfigurer;
-    }
+  @Bean
+  public MapperScannerConfigurer mapperScannerConfigurer() {
+    MapperScannerConfigurer mapperScannerConfigurer = new MapperScannerConfigurer();
+    mapperScannerConfigurer.setSqlSessionFactoryBeanName("sqlSessionFactory");
+    // Each table corresponds to the XXMapper.java interface type Java file
+    // 每张表对应的XXMapper.java interface类型的Java文件
+    mapperScannerConfigurer.setBasePackage(
+        MybatisConfiguration.BDP_SERVER_MYBATIS_BASEPACKAGE.getValue());
+    return mapperScannerConfigurer;
+  }
 }

@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *   http://www.apache.org/licenses/LICENSE-2.0
+ *    http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -19,30 +19,30 @@ package org.apache.linkis.datasourcemanager.core.vo;
 
 public class DataSourceEnvVo extends PageViewVo {
 
-    private String envName;
+  private String envName;
 
-    private Long dataSourceTypeId;
+  private Long dataSourceTypeId;
 
-    public DataSourceEnvVo() {}
+  public DataSourceEnvVo() {}
 
-    public DataSourceEnvVo(String envName, Long dataSourceTypeId) {
-        this.envName = envName;
-        this.dataSourceTypeId = dataSourceTypeId;
-    }
+  public DataSourceEnvVo(String envName, Long dataSourceTypeId) {
+    this.envName = envName;
+    this.dataSourceTypeId = dataSourceTypeId;
+  }
 
-    public String getEnvName() {
-        return envName;
-    }
+  public String getEnvName() {
+    return envName;
+  }
 
-    public void setEnvName(String envName) {
-        this.envName = envName;
-    }
+  public void setEnvName(String envName) {
+    this.envName = envName;
+  }
 
-    public Long getDataSourceTypeId() {
-        return dataSourceTypeId;
-    }
+  public Long getDataSourceTypeId() {
+    return dataSourceTypeId;
+  }
 
-    public void setDataSourceTypeId(Long dataSourceTypeId) {
-        this.dataSourceTypeId = dataSourceTypeId;
-    }
+  public void setDataSourceTypeId(Long dataSourceTypeId) {
+    this.dataSourceTypeId = dataSourceTypeId;
+  }
 }

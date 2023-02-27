@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *   http://www.apache.org/licenses/LICENSE-2.0
+ *    http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -22,17 +22,16 @@ import org.apache.linkis.cli.common.entity.job.Job;
 import java.util.Map;
 
 public interface ExecutionResult {
-    Map<String, Job> getJobs();
+  Map<String, Job> getJobs();
 
-    ExecutionStatus getExecutionStatus();
+  ExecutionStatus getExecutionStatus();
 
-    void setExecutionStatus(ExecutionStatus executionStatus);
+  void setExecutionStatus(ExecutionStatus executionStatus);
 
-    Exception getException(); // TODO: put exception during execution in here and do not interrupt
-    // execution
+  Exception getException(); // TODO: put exception during execution in here and do not interrupt
+  // execution
 
-    void setException(
-            Exception
-                    exception); // TODO: put exception during execution in here and do not interrupt
-    // execution
+  void setException(
+      Exception exception); // TODO: put exception during execution in here and do not interrupt
+  // execution
 }

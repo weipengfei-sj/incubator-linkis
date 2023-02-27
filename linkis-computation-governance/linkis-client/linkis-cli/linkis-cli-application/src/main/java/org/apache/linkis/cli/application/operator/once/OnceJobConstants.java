@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *   http://www.apache.org/licenses/LICENSE-2.0
+ *    http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -18,7 +18,7 @@
 package org.apache.linkis.cli.application.operator.once;
 
 public class OnceJobConstants {
-    public static final Integer MAX_LOG_SIZE_ONCE = 5000;
-    public static final Integer IDX_FOR_LOG_TYPE_ALL = 3; // 0: Error 1: WARN 2:INFO 3: ALL
-    public static final String LOG_IGNORE_KEYWORDS = "[SpringContextShutdownHook],[main]";
+  public static final Integer MAX_LOG_SIZE_ONCE = 5000;
+  public static final Integer IDX_FOR_LOG_TYPE_ALL = 3; // 0: Error 1: WARN 2:INFO 3: ALL
+  public static final String LOG_IGNORE_KEYWORDS = "[SpringContextShutdownHook],[main]";
 }

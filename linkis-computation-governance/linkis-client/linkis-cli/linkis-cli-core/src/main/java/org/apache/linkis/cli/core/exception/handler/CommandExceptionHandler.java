@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *   http://www.apache.org/licenses/LICENSE-2.0
+ *    http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -25,22 +25,22 @@ import org.apache.linkis.cli.core.present.HelpInfoPresenter;
 import org.apache.linkis.cli.core.present.model.HelpInfoModel;
 
 public class CommandExceptionHandler implements ExceptionHandler {
-    @Override
-    public void handle(Exception e) {
-        if (e instanceof CommandException) {
-            if (((CommandException) e).requireHelp()) {
+  @Override
+  public void handle(Exception e) {
+    if (e instanceof CommandException) {
+      if (((CommandException) e).requireHelp()) {
 
-                CmdTemplate template =
-                        CmdTemplateFactory.getTemplateOri(((CommandException) e).getCmdType());
+        CmdTemplate template =
+            CmdTemplateFactory.getTemplateOri(((CommandException) e).getCmdType());
 
-                if (template != null) {
-                    HelpInfoModel model = new HelpInfoModel();
-                    model.buildModel(template);
+        if (template != null) {
+          HelpInfoModel model = new HelpInfoModel();
+          model.buildModel(template);
 
-                    new HelpInfoPresenter().present(model, null);
-                }
-            }
+          new HelpInfoPresenter().present(model, null);
         }
-        new DefaultExceptionHandler().handle(e);
+      }
     }
+    new DefaultExceptionHandler().handle(e);
+  }
 }

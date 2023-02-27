@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *   http://www.apache.org/licenses/LICENSE-2.0
+ *    http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -22,9 +22,9 @@ import org.apache.linkis.cs.listener.callback.imp.DefaultContextIDCallbackEngine
 import org.apache.linkis.cs.listener.callback.imp.DefaultContextKeyCallbackEngine;
 
 public interface ListenerManager {
-    public ContextAsyncListenerBus getContextAsyncListenerBus(); // 单例
+  public ContextAsyncListenerBus getContextAsyncListenerBus(); // 单例
 
-    public DefaultContextIDCallbackEngine getContextIDCallbackEngine(); // 单例
+  public DefaultContextIDCallbackEngine getContextIDCallbackEngine(); // 单例
 
-    public DefaultContextKeyCallbackEngine getContextKeyCallbackEngine(); // 单例
+  public DefaultContextKeyCallbackEngine getContextKeyCallbackEngine(); // 单例
 }

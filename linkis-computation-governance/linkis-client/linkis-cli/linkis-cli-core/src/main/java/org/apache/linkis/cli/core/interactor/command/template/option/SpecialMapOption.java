@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *   http://www.apache.org/licenses/LICENSE-2.0
+ *    http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -21,19 +21,15 @@ import org.apache.linkis.cli.core.interactor.command.SpecialMap;
 
 /** kv-pairs in SpecialMapOption will be excluded by varAccess */
 public class SpecialMapOption extends MapOption implements Cloneable {
-    public SpecialMapOption(
-            String keyPrefix,
-            String key,
-            String[] paramNames,
-            String description,
-            boolean isOptional) {
-        super(keyPrefix, key, paramNames, description, isOptional, new SpecialMap<>());
-    }
+  public SpecialMapOption(
+      String keyPrefix, String key, String[] paramNames, String description, boolean isOptional) {
+    super(keyPrefix, key, paramNames, description, isOptional, new SpecialMap<>());
+  }
 
-    @Override
-    public SpecialMapOption clone() throws CloneNotSupportedException {
-        SpecialMapOption ret = (SpecialMapOption) super.clone();
-        ret.value = new SpecialMap<>(this.value);
-        return ret;
-    }
+  @Override
+  public SpecialMapOption clone() throws CloneNotSupportedException {
+    SpecialMapOption ret = (SpecialMapOption) super.clone();
+    ret.value = new SpecialMap<>(this.value);
+    return ret;
+  }
 }

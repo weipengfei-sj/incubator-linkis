@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *   http://www.apache.org/licenses/LICENSE-2.0
+ *    http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -20,21 +20,21 @@ package org.apache.linkis.cli.application.interactor.job.subtype;
 import org.apache.linkis.cli.common.entity.job.JobSubType;
 
 public enum LinkisManSubType implements JobSubType {
-    KILL("kill"),
-    LOG("log"),
-    DESC("desc"),
-    STATUS("status"),
-    LIST("list"),
-    RESULT("result");
+  KILL("kill"),
+  LOG("log"),
+  DESC("desc"),
+  STATUS("status"),
+  LIST("list"),
+  RESULT("result");
 
-    private String name;
+  private String name;
 
-    LinkisManSubType(String name) {
-        this.name = name;
-    }
+  LinkisManSubType(String name) {
+    this.name = name;
+  }
 
-    @Override
-    public String getName() {
-        return this.name;
-    }
+  @Override
+  public String getName() {
+    return this.name;
+  }
 }

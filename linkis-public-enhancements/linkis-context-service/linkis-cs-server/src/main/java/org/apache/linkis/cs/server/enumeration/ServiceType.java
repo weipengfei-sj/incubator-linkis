@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *   http://www.apache.org/licenses/LICENSE-2.0
+ *    http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -20,33 +20,33 @@ package org.apache.linkis.cs.server.enumeration;
 import org.apache.linkis.cs.server.protocol.*;
 
 public enum ServiceType {
-    /** */
-    CONTEXT_ID {
-        @Override
-        public HttpRequestProtocol getRequestProtocol() {
-            return new ContextIDProtocol();
-        }
-    },
-    CONTEXT {
-        @Override
-        public HttpRequestProtocol getRequestProtocol() {
-            return new ContextProtocol();
-        }
-    },
-    CONTEXT_HISTORY {
-        @Override
-        public HttpRequestProtocol getRequestProtocol() {
-            return new ContextHistoryProtocol();
-        }
-    },
-    CONTEXT_LISTENER {
-        @Override
-        public HttpRequestProtocol getRequestProtocol() {
-            return new ContextListenerProtocol();
-        }
-    };
-
+  /** */
+  CONTEXT_ID {
+    @Override
     public HttpRequestProtocol getRequestProtocol() {
-        return null;
+      return new ContextIDProtocol();
     }
+  },
+  CONTEXT {
+    @Override
+    public HttpRequestProtocol getRequestProtocol() {
+      return new ContextProtocol();
+    }
+  },
+  CONTEXT_HISTORY {
+    @Override
+    public HttpRequestProtocol getRequestProtocol() {
+      return new ContextHistoryProtocol();
+    }
+  },
+  CONTEXT_LISTENER {
+    @Override
+    public HttpRequestProtocol getRequestProtocol() {
+      return new ContextListenerProtocol();
+    }
+  };
+
+  public HttpRequestProtocol getRequestProtocol() {
+    return null;
+  }
 }

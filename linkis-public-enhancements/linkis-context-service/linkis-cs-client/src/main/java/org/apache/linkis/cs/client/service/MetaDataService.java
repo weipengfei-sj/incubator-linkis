@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *   http://www.apache.org/licenses/LICENSE-2.0
+ *    http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -25,14 +25,14 @@ import java.util.Map;
 
 public interface MetaDataService {
 
-    /**
-     * 通过ContextID和NodeName，获取上游的所有Metadata数据
-     *
-     * @param contextIDStr
-     * @param nodeName
-     * @return
-     * @throws CSErrorException
-     */
-    Map<ContextKey, MetaData> getAllUpstreamMetaData(String contextIDStr, String nodeName)
-            throws CSErrorException;
+  /**
+   * 通过ContextID和NodeName，获取上游的所有Metadata数据
+   *
+   * @param contextIDStr
+   * @param nodeName
+   * @return
+   * @throws CSErrorException
+   */
+  Map<ContextKey, MetaData> getAllUpstreamMetaData(String contextIDStr, String nodeName)
+      throws CSErrorException;
 }

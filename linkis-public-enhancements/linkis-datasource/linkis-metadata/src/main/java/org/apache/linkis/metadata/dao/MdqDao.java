@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *   http://www.apache.org/licenses/LICENSE-2.0
+ *    http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -28,25 +28,25 @@ import java.util.List;
 
 public interface MdqDao {
 
-    void activateTable(Long tableId);
+  void activateTable(Long tableId);
 
-    MdqTable selectTableByName(
-            @Param("database") String database,
-            @Param("tableName") String tableName,
-            @Param("user") String user);
+  MdqTable selectTableByName(
+      @Param("database") String database,
+      @Param("tableName") String tableName,
+      @Param("user") String user);
 
-    List<MdqField> listMdqFieldByTableId(Long tableId);
+  List<MdqField> listMdqFieldByTableId(Long tableId);
 
-    void insertTable(MdqTable table);
+  void insertTable(MdqTable table);
 
-    void insertFields(@Param("mdqFieldList") List<MdqField> mdqFieldList);
+  void insertFields(@Param("mdqFieldList") List<MdqField> mdqFieldList);
 
-    void insertImport(MdqImport mdqImport);
+  void insertImport(MdqImport mdqImport);
 
-    void insertLineage(MdqLineage mdqLineage);
+  void insertLineage(MdqLineage mdqLineage);
 
-    MdqTable selectTableForUpdate(
-            @Param("database") String database, @Param("tableName") String tableName);
+  MdqTable selectTableForUpdate(
+      @Param("database") String database, @Param("tableName") String tableName);
 
-    void deleteTableBaseInfo(Long id);
+  void deleteTableBaseInfo(Long id);
 }
