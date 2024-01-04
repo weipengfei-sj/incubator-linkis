@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *   http://www.apache.org/licenses/LICENSE-2.0
+ *    http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -17,8 +17,6 @@
 
 package org.apache.linkis.entrance.interceptor.impl
 
-import java.{lang, util}
-
 import org.apache.linkis.entrance.interceptor.EntranceInterceptor
 import org.apache.linkis.governance.common.entity.job.JobRequest
 import org.apache.linkis.manager.label.builder.factory.LabelBuilderFactoryContext
@@ -26,22 +24,24 @@ import org.apache.linkis.manager.label.constant.LabelKeyConstant
 import org.apache.linkis.manager.label.entity.TenantLabel
 import org.apache.linkis.protocol.utils.TaskUtils
 
-import scala.collection.JavaConversions._
+import java.lang
 
-class ParserVarLabelInterceptor extends EntranceInterceptor{
+class ParserVarLabelInterceptor extends EntranceInterceptor {
 
   override def apply(jobRequest: JobRequest, logAppender: lang.StringBuilder): JobRequest = {
     jobRequest match {
       case requestPersistTask: JobRequest =>
-        val variableMap = TaskUtils.getVariableMap(requestPersistTask.getParams.asInstanceOf[util.Map[String, Any]])
+        val variableMap = TaskUtils.getVariableMap(requestPersistTask.getParams)
         val labels = requestPersistTask.getLabels
-        if (variableMap.contains(LabelKeyConstant.TENANT_KEY)) {
-          val tenantLabel = LabelBuilderFactoryContext.getLabelBuilderFactory.createLabel[TenantLabel](LabelKeyConstant.TENANT_KEY)
+        if (variableMap.containsKey(LabelKeyConstant.TENANT_KEY)) {
+          val tenantLabel = LabelBuilderFactoryContext.getLabelBuilderFactory
+            .createLabel[TenantLabel](LabelKeyConstant.TENANT_KEY)
           tenantLabel.setTenant(variableMap.get(LabelKeyConstant.TENANT_KEY).toString)
           labels.add(tenantLabel)
         }
-      case _ => jobRequest
+      case _ =>
     }
     jobRequest
   }
+
 }

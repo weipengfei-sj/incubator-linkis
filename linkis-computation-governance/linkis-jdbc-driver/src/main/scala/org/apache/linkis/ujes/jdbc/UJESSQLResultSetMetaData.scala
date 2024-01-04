@@ -5,24 +5,23 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
- *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- 
+
 package org.apache.linkis.ujes.jdbc
-
-
-import java.sql.{ResultSetMetaData, SQLException, Types}
-import java.util
 
 import org.apache.linkis.common.utils.Logging
 import org.apache.linkis.ujes.jdbc.entity.JdbcColumn
+
+import java.sql.{ResultSetMetaData, SQLException, Types}
+import java.util
 
 class UJESSQLResultSetMetaData extends ResultSetMetaData with Logging {
   private val columnNameProperties: util.HashMap[Int, String] = new util.HashMap[Int, String]()
@@ -34,19 +33,19 @@ class UJESSQLResultSetMetaData extends ResultSetMetaData with Logging {
   private[jdbc] def setColumnNameProperties(column: Int, columnName: String): Unit = {
     if (column != null && columnName != null) {
       columnNameProperties.put(column, columnName)
-    } else throw new UJESSQLException(UJESSQLErrorCode.METADATA_EMPTY)
+    } else throw new LinkisSQLException(LinkisSQLErrorCode.METADATA_EMPTY)
   }
 
   private[jdbc] def setDataTypeProperties(column: Int, columnName: String): Unit = {
     if (column != null && columnName != null) {
       dataTypeProperties.put(column, columnName)
-    } else throw new UJESSQLException(UJESSQLErrorCode.METADATA_EMPTY)
+    } else throw new LinkisSQLException(LinkisSQLErrorCode.METADATA_EMPTY)
   }
 
   private[jdbc] def setCommentPropreties(column: Int, columnName: String): Unit = {
     if (column != null && columnName != null) {
       commentProperties.put(column, columnName)
-    } else throw new UJESSQLException(UJESSQLErrorCode.METADATA_EMPTY)
+    } else throw new LinkisSQLException(LinkisSQLErrorCode.METADATA_EMPTY)
   }
 
   override def getColumnCount: Int = {
@@ -54,7 +53,7 @@ class UJESSQLResultSetMetaData extends ResultSetMetaData with Logging {
   }
 
   override def isAutoIncrement(column: Int): Boolean = {
-    throw new UJESSQLException(UJESSQLErrorCode.NOSUPPORT_METADATA)
+    throw new LinkisSQLException(LinkisSQLErrorCode.NOSUPPORT_METADATA)
   }
 
   override def isCaseSensitive(column: Int): Boolean = true
@@ -75,7 +74,7 @@ class UJESSQLResultSetMetaData extends ResultSetMetaData with Logging {
 
   override def getColumnLabel(column: Int): String = {
     if (columnNameProperties.get(column) == null) {
-      throw new UJESSQLException(UJESSQLErrorCode.METADATA_EMPTY)
+      throw new LinkisSQLException(LinkisSQLErrorCode.METADATA_EMPTY)
     } else columnNameProperties.get(column)
   }
 
@@ -84,7 +83,7 @@ class UJESSQLResultSetMetaData extends ResultSetMetaData with Logging {
   }
 
   override def getSchemaName(column: Int): String = {
-    throw new UJESSQLException(UJESSQLErrorCode.NOSUPPORT_METADATA)
+    throw new LinkisSQLException(LinkisSQLErrorCode.NOSUPPORT_METADATA)
   }
 
   override def getPrecision(column: Int): Int = {
@@ -103,11 +102,11 @@ class UJESSQLResultSetMetaData extends ResultSetMetaData with Logging {
   }
 
   override def getTableName(column: Int): String = {
-    throw new UJESSQLException(UJESSQLErrorCode.NOSUPPORT_METADATA)
+    throw new LinkisSQLException(LinkisSQLErrorCode.NOSUPPORT_METADATA)
   }
 
   override def getCatalogName(column: Int): String = {
-    throw new UJESSQLException(UJESSQLErrorCode.NOSUPPORT_METADATA)
+    throw new LinkisSQLException(LinkisSQLErrorCode.NOSUPPORT_METADATA)
   }
 
   override def getColumnType(column: Int): Int = {
@@ -116,7 +115,7 @@ class UJESSQLResultSetMetaData extends ResultSetMetaData with Logging {
 
   override def getColumnTypeName(column: Int): String = {
     if (dataTypeProperties.get(column) == null) {
-      throw new UJESSQLException(UJESSQLErrorCode.METADATA_EMPTY)
+      throw new LinkisSQLException(LinkisSQLErrorCode.METADATA_EMPTY)
     } else dataTypeProperties.get(column)
   }
 
@@ -129,24 +128,27 @@ class UJESSQLResultSetMetaData extends ResultSetMetaData with Logging {
   }
 
   override def isDefinitelyWritable(column: Int): Boolean = {
-    throw new UJESSQLException(UJESSQLErrorCode.NOSUPPORT_METADATA)
+    throw new LinkisSQLException(LinkisSQLErrorCode.NOSUPPORT_METADATA)
   }
 
   override def getColumnClassName(column: Int): String = {
-    throw new UJESSQLException(UJESSQLErrorCode.NOSUPPORT_METADATA)
+    throw new LinkisSQLException(LinkisSQLErrorCode.NOSUPPORT_METADATA)
   }
 
   override def unwrap[T](iface: Class[T]): T = {
-    throw new UJESSQLException(UJESSQLErrorCode.NOSUPPORT_METADATA)
+    throw new LinkisSQLException(LinkisSQLErrorCode.NOSUPPORT_METADATA)
   }
 
   override def isWrapperFor(iface: Class[_]): Boolean = {
-    throw new UJESSQLException(UJESSQLErrorCode.NOSUPPORT_METADATA)
+    throw new LinkisSQLException(LinkisSQLErrorCode.NOSUPPORT_METADATA)
   }
 
   protected def toZeroIndex(column: Int): Int = {
-    if (dataTypeProperties == null) throw new SQLException("Could not determine column type name for ResultSet")
-    if (column < 1 || column > dataTypeProperties.size) throw new SQLException("Invalid column value: " + column)
+    if (dataTypeProperties == null)
+      throw new SQLException("Could not determine column type name for ResultSet")
+    if (column < 1 || column > dataTypeProperties.size)
+      throw new SQLException("Invalid column value: " + column)
     column - 1
   }
+
 }

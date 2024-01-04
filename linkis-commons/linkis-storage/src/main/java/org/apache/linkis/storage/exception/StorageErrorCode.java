@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *   http://www.apache.org/licenses/LICENSE-2.0
+ *    http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -19,31 +19,36 @@ package org.apache.linkis.storage.exception;
 
 public enum StorageErrorCode {
 
-    /** */
-    FS_NOT_INIT(53001, "please init first");
+  /** */
+  FS_NOT_INIT(53001, "please init first"),
 
-    StorageErrorCode(int errorCode, String message) {
-        this.code = errorCode;
-        this.message = message;
-    }
+  INCONSISTENT_DATA(53001, "Inconsistent row data read,read %s,need rowLen %s"),
+  FS_OOM(53002, "OOM occurred while reading the file"),
 
-    private int code;
+  FS_ERROR(53003, "Failed to operation fs");
 
-    private String message;
+  StorageErrorCode(int errorCode, String message) {
+    this.code = errorCode;
+    this.message = message;
+  }
 
-    public int getCode() {
-        return code;
-    }
+  private int code;
 
-    public void setCode(int code) {
-        this.code = code;
-    }
+  private String message;
 
-    public String getMessage() {
-        return message;
-    }
+  public int getCode() {
+    return code;
+  }
 
-    public void setMessage(String message) {
-        this.message = message;
-    }
+  public void setCode(int code) {
+    this.code = code;
+  }
+
+  public String getMessage() {
+    return message;
+  }
+
+  public void setMessage(String message) {
+    this.message = message;
+  }
 }

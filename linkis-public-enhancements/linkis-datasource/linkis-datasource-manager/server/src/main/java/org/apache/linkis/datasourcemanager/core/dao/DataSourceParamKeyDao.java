@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *   http://www.apache.org/licenses/LICENSE-2.0
+ *    http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -25,22 +25,30 @@ import java.util.List;
 
 public interface DataSourceParamKeyDao {
 
-    /**
-     * List by data source type id
-     *
-     * @param dataSourceTypeId type id
-     * @return
-     */
-    List<DataSourceParamKeyDefinition> listByDataSourceType(Long dataSourceTypeId);
+  /**
+   * List by data source type id
+   *
+   * @param dataSourceTypeId type id
+   * @return
+   */
+  List<DataSourceParamKeyDefinition> listByDataSourceType(Long dataSourceTypeId);
 
-    /**
-     * List by data source type id and scope
-     *
-     * @param dataSourceTypeId type id
-     * @param scope scope
-     * @return
-     */
-    List<DataSourceParamKeyDefinition> listByDataSourceTypeAndScope(
-            @Param("dataSourceTypeId") Long dataSourceTypeId,
-            @Param("scope") DataSourceParamKeyDefinition.Scope scope);
+  /**
+   * List by data source type id
+   *
+   * @param dataSourceTypeId type id
+   * @return
+   */
+  List<DataSourceParamKeyDefinition> listByDataSourceTypeEn(Long dataSourceTypeId);
+
+  /**
+   * List by data source type id and scope
+   *
+   * @param dataSourceTypeId type id
+   * @param scope scope
+   * @return
+   */
+  List<DataSourceParamKeyDefinition> listByDataSourceTypeAndScope(
+      @Param("dataSourceTypeId") Long dataSourceTypeId,
+      @Param("scope") DataSourceParamKeyDefinition.Scope scope);
 }

@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *   http://www.apache.org/licenses/LICENSE-2.0
+ *    http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -33,26 +33,26 @@ import java.lang.annotation.Target;
 @Bean(value = PersistenceEngineBeanAnnotation.BEAN_NAME)
 @Component(value = PersistenceEngineBeanAnnotation.BEAN_NAME)
 public @interface PersistenceEngineBeanAnnotation {
-    String BEAN_NAME = "persistenceEngine";
+  String BEAN_NAME = "persistenceEngine";
 
-    @AliasFor(annotation = Component.class)
+  @AliasFor(annotation = Component.class)
+  String value() default BEAN_NAME;
+
+  @Target({
+    ElementType.CONSTRUCTOR,
+    ElementType.FIELD,
+    ElementType.METHOD,
+    ElementType.TYPE,
+    ElementType.PARAMETER
+  })
+  @Retention(RetentionPolicy.RUNTIME)
+  @Qualifier(BEAN_NAME)
+  @Autowired
+  @interface PersistenceEngineAutowiredAnnotation {
+    @AliasFor(annotation = Qualifier.class)
     String value() default BEAN_NAME;
 
-    @Target({
-        ElementType.CONSTRUCTOR,
-        ElementType.FIELD,
-        ElementType.METHOD,
-        ElementType.TYPE,
-        ElementType.PARAMETER
-    })
-    @Retention(RetentionPolicy.RUNTIME)
-    @Qualifier(BEAN_NAME)
-    @Autowired
-    @interface PersistenceEngineAutowiredAnnotation {
-        @AliasFor(annotation = Qualifier.class)
-        String value() default BEAN_NAME;
-
-        @AliasFor(annotation = Autowired.class)
-        boolean required() default true;
-    }
+    @AliasFor(annotation = Autowired.class)
+    boolean required() default true;
+  }
 }

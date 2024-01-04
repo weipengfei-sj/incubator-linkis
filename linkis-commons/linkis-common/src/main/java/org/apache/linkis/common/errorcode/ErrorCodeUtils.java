@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *   http://www.apache.org/licenses/LICENSE-2.0
+ *    http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -24,12 +24,12 @@ import static org.apache.linkis.common.errorcode.LinkisFrameErrorCodeSummary.VAL
 
 public class ErrorCodeUtils {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ErrorCodeUtils.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(ErrorCodeUtils.class);
 
-    public static void validateErrorCode(int errCode, int startCode, int endCode) {
-        if (errCode < startCode || errCode > endCode) {
-            LOGGER.error("You error code validate failed, please fix it and reboot");
-            System.exit(VALIDATE_ERROR_CODE_FAILED.getErrorCode());
-        }
+  public static void validateErrorCode(int errCode, int startCode, int endCode) {
+    if (errCode < startCode || errCode > endCode) {
+      LOGGER.error("You error code validate failed, please fix it and reboot");
+      System.exit(VALIDATE_ERROR_CODE_FAILED.getErrorCode());
     }
+  }
 }

@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *   http://www.apache.org/licenses/LICENSE-2.0
+ *    http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -30,191 +30,212 @@ import java.util.Map;
  */
 public class JobRequest {
 
-    private Long id;
-    private String reqId;
-    private String submitUser;
-    private String executeUser;
-    private Map<String, String> source;
-    private String executionCode;
-    private List<Label<?>> labels;
-    private Map<String, Object> params;
-    private String progress;
-    private String status;
-    private String logPath;
-    private Integer errorCode;
-    private String errorDesc;
-    private Date createdTime;
-    private Date updatedTime;
-    private String instances;
-    /** result location */
-    private String resultLocation;
+  private Long id;
+  private String reqId;
+  private String submitUser;
+  private String executeUser;
+  private Map<String, String> source;
+  private String executionCode;
+  private List<Label<?>> labels;
+  private Map<String, Object> params;
+  private String progress;
+  private String status;
+  private String logPath;
+  private Integer errorCode;
+  private String errorDesc;
+  private Date createdTime;
+  private Date updatedTime;
+  private String instances;
+  /** result location */
+  private String resultLocation;
 
-    private Map<String, Object> metrics = new HashMap<>();
+  /** Task status updates is ordered, if false, not checked */
+  private Boolean updateOrderFlag = true;
 
-    public Long getId() {
-        return id;
-    }
+  private String observeInfo;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+  private Map<String, Object> metrics = new HashMap<>();
 
-    public String getReqId() {
-        return reqId;
-    }
+  public Long getId() {
+    return id;
+  }
 
-    public void setReqId(String reqId) {
-        this.reqId = reqId;
-    }
+  public void setId(Long id) {
+    this.id = id;
+  }
 
-    public String getSubmitUser() {
-        return submitUser;
-    }
+  public String getReqId() {
+    return reqId;
+  }
 
-    public void setSubmitUser(String submitUser) {
-        this.submitUser = submitUser;
-    }
+  public void setReqId(String reqId) {
+    this.reqId = reqId;
+  }
 
-    public String getExecuteUser() {
-        return executeUser;
-    }
+  public String getSubmitUser() {
+    return submitUser;
+  }
 
-    public void setExecuteUser(String executeUser) {
-        this.executeUser = executeUser;
-    }
+  public void setSubmitUser(String submitUser) {
+    this.submitUser = submitUser;
+  }
 
-    public Map<String, String> getSource() {
-        return source;
-    }
+  public String getExecuteUser() {
+    return executeUser;
+  }
 
-    public void setSource(Map<String, String> source) {
-        this.source = source;
-    }
+  public void setExecuteUser(String executeUser) {
+    this.executeUser = executeUser;
+  }
 
-    public String getExecutionCode() {
-        return executionCode;
-    }
+  public Map<String, String> getSource() {
+    return source;
+  }
 
-    public void setExecutionCode(String executionCode) {
-        this.executionCode = executionCode;
-    }
+  public void setSource(Map<String, String> source) {
+    this.source = source;
+  }
 
-    public List<Label<?>> getLabels() {
-        return labels;
-    }
+  public String getExecutionCode() {
+    return executionCode;
+  }
 
-    public void setLabels(List<Label<?>> labels) {
-        this.labels = labels;
-    }
+  public void setExecutionCode(String executionCode) {
+    this.executionCode = executionCode;
+  }
 
-    public Map<String, Object> getParams() {
-        return params;
-    }
+  public List<Label<?>> getLabels() {
+    return labels;
+  }
 
-    public void setParams(Map<String, Object> params) {
-        this.params = params;
-    }
+  public void setLabels(List<Label<?>> labels) {
+    this.labels = labels;
+  }
 
-    public String getProgress() {
-        return progress;
-    }
+  public Map<String, Object> getParams() {
+    return params;
+  }
 
-    public void setProgress(String progress) {
-        this.progress = progress;
-    }
+  public void setParams(Map<String, Object> params) {
+    this.params = params;
+  }
 
-    public String getStatus() {
-        return status;
-    }
+  public String getProgress() {
+    return progress;
+  }
 
-    public void setStatus(String status) {
-        this.status = status;
-    }
+  public void setProgress(String progress) {
+    this.progress = progress;
+  }
 
-    public String getLogPath() {
-        return logPath;
-    }
+  public String getStatus() {
+    return status;
+  }
 
-    public void setLogPath(String logPath) {
-        this.logPath = logPath;
-    }
+  public void setStatus(String status) {
+    this.status = status;
+  }
 
-    public Integer getErrorCode() {
-        return errorCode;
-    }
+  public String getLogPath() {
+    return logPath;
+  }
 
-    public void setErrorCode(Integer errorCode) {
-        this.errorCode = errorCode;
-    }
+  public void setLogPath(String logPath) {
+    this.logPath = logPath;
+  }
 
-    public String getErrorDesc() {
-        return errorDesc;
-    }
+  public Integer getErrorCode() {
+    return errorCode;
+  }
 
-    public void setErrorDesc(String errorDesc) {
-        this.errorDesc = errorDesc;
-    }
+  public void setErrorCode(Integer errorCode) {
+    this.errorCode = errorCode;
+  }
 
-    public Date getCreatedTime() {
-        return createdTime;
-    }
+  public String getErrorDesc() {
+    return errorDesc;
+  }
 
-    public void setCreatedTime(Date createdTime) {
-        this.createdTime = createdTime;
-    }
+  public void setErrorDesc(String errorDesc) {
+    this.errorDesc = errorDesc;
+  }
 
-    public Date getUpdatedTime() {
-        return updatedTime;
-    }
+  public Date getCreatedTime() {
+    return createdTime;
+  }
 
-    public void setUpdatedTime(Date updatedTime) {
-        this.updatedTime = updatedTime;
-    }
+  public void setCreatedTime(Date createdTime) {
+    this.createdTime = createdTime;
+  }
 
-    public String getInstances() {
-        return instances;
-    }
+  public Date getUpdatedTime() {
+    return updatedTime;
+  }
 
-    public void setInstances(String instances) {
-        this.instances = instances;
-    }
+  public void setUpdatedTime(Date updatedTime) {
+    this.updatedTime = updatedTime;
+  }
 
-    public Map<String, Object> getMetrics() {
-        return metrics;
-    }
+  public String getInstances() {
+    return instances;
+  }
 
-    public void setMetrics(Map<String, Object> metrics) {
-        this.metrics = metrics;
-    }
+  public void setInstances(String instances) {
+    this.instances = instances;
+  }
 
-    public String getResultLocation() {
-        return resultLocation;
-    }
+  public Map<String, Object> getMetrics() {
+    return metrics;
+  }
 
-    public void setResultLocation(String resultLocation) {
-        this.resultLocation = resultLocation;
-    }
+  public void setMetrics(Map<String, Object> metrics) {
+    this.metrics = metrics;
+  }
 
-    @Override
-    public String toString() {
-        return "JobRequest{"
-                + "id="
-                + id
-                + ", reqId='"
-                + reqId
-                + '\''
-                + ", submitUser='"
-                + submitUser
-                + '\''
-                + ", executeUser='"
-                + executeUser
-                + '\''
-                + ", labels="
-                + labels
-                + ", params="
-                + params
-                + ", status="
-                + status
-                + '}';
-    }
+  public String getResultLocation() {
+    return resultLocation;
+  }
+
+  public void setResultLocation(String resultLocation) {
+    this.resultLocation = resultLocation;
+  }
+
+  public String getObserveInfo() {
+    return observeInfo;
+  }
+
+  public void setObserveInfo(String observeInfo) {
+    this.observeInfo = observeInfo;
+  }
+
+  public Boolean getUpdateOrderFlag() {
+    return updateOrderFlag;
+  }
+
+  public void setUpdateOrderFlag(Boolean updateOrderFlag) {
+    this.updateOrderFlag = updateOrderFlag;
+  }
+
+  @Override
+  public String toString() {
+    return "JobRequest{"
+        + "id="
+        + id
+        + ", reqId='"
+        + reqId
+        + '\''
+        + ", submitUser='"
+        + submitUser
+        + '\''
+        + ", executeUser='"
+        + executeUser
+        + '\''
+        + ", labels="
+        + labels
+        + ", params="
+        + params
+        + ", status="
+        + status
+        + '}';
+  }
 }

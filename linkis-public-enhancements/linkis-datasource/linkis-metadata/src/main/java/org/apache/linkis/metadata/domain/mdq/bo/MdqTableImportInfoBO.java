@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *   http://www.apache.org/licenses/LICENSE-2.0
+ *    http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -20,43 +20,43 @@ package org.apache.linkis.metadata.domain.mdq.bo;
 import java.util.Map;
 
 public class MdqTableImportInfoBO {
-    private Integer importType;
+  private Integer importType;
 
-    private Map<String, String> args;
+  private Map<String, String> args;
 
-    private String destination;
+  private String destination;
 
-    private String source;
+  private String source;
 
-    public String getDestination() {
-        return destination;
-    }
+  public String getDestination() {
+    return destination;
+  }
 
-    public void setDestination(String destination) {
-        this.destination = destination;
-    }
+  public void setDestination(String destination) {
+    this.destination = destination;
+  }
 
-    public String getSource() {
-        return source;
-    }
+  public String getSource() {
+    return source;
+  }
 
-    public void setSource(String source) {
-        this.source = source;
-    }
+  public void setSource(String source) {
+    this.source = source;
+  }
 
-    public Integer getImportType() {
-        return importType;
-    }
+  public Integer getImportType() {
+    return importType;
+  }
 
-    public void setImportType(Integer importType) {
-        this.importType = importType;
-    }
+  public void setImportType(Integer importType) {
+    this.importType = importType;
+  }
 
-    public Map<String, String> getArgs() {
-        return args;
-    }
+  public Map<String, String> getArgs() {
+    return args;
+  }
 
-    public void setArgs(Map<String, String> args) {
-        this.args = args;
-    }
+  public void setArgs(Map<String, String> args) {
+    this.args = args;
+  }
 }

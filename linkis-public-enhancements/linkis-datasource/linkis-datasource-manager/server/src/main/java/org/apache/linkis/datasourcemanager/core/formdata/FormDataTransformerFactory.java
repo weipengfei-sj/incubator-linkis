@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *   http://www.apache.org/licenses/LICENSE-2.0
+ *    http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -22,16 +22,16 @@ import java.util.concurrent.ConcurrentHashMap;
 /** Simple static factory */
 public class FormDataTransformerFactory {
 
-    private static final ConcurrentHashMap<String, MultiPartFormDataTransformer>
-            formDataTransformerStored = new ConcurrentHashMap<>();
+  private static final ConcurrentHashMap<String, MultiPartFormDataTransformer>
+      formDataTransformerStored = new ConcurrentHashMap<>();
 
-    /**
-     * Build custom implement
-     *
-     * @return
-     */
-    public static MultiPartFormDataTransformer buildCustom() {
-        return formDataTransformerStored.computeIfAbsent(
-                "custom", key -> new CustomMultiPartFormDataTransformer());
-    }
+  /**
+   * Build custom implement
+   *
+   * @return
+   */
+  public static MultiPartFormDataTransformer buildCustom() {
+    return formDataTransformerStored.computeIfAbsent(
+        "custom", key -> new CustomMultiPartFormDataTransformer());
+  }
 }

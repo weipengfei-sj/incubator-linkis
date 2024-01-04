@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *   http://www.apache.org/licenses/LICENSE-2.0
+ *    http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -21,30 +21,30 @@ import org.apache.linkis.common.ServiceInstance;
 
 public class NodeLabelRemoveRequest implements LabelRequest {
 
-    private ServiceInstance serviceInstance;
+  private ServiceInstance serviceInstance;
 
-    private boolean isEngine;
+  private boolean isEngine;
 
-    public NodeLabelRemoveRequest() {}
+  public NodeLabelRemoveRequest() {}
 
-    public NodeLabelRemoveRequest(ServiceInstance serviceInstance, boolean isEngine) {
-        this.serviceInstance = serviceInstance;
-        this.isEngine = isEngine;
-    }
+  public NodeLabelRemoveRequest(ServiceInstance serviceInstance, boolean isEngine) {
+    this.serviceInstance = serviceInstance;
+    this.isEngine = isEngine;
+  }
 
-    public ServiceInstance getServiceInstance() {
-        return serviceInstance;
-    }
+  public ServiceInstance getServiceInstance() {
+    return serviceInstance;
+  }
 
-    public void setServiceInstance(ServiceInstance serviceInstance) {
-        this.serviceInstance = serviceInstance;
-    }
+  public void setServiceInstance(ServiceInstance serviceInstance) {
+    this.serviceInstance = serviceInstance;
+  }
 
-    public boolean isEngine() {
-        return isEngine;
-    }
+  public boolean isEngine() {
+    return isEngine;
+  }
 
-    public void setEngine(boolean engine) {
-        isEngine = engine;
-    }
+  public void setEngine(boolean engine) {
+    isEngine = engine;
+  }
 }

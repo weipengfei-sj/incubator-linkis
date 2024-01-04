@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *   http://www.apache.org/licenses/LICENSE-2.0
+ *    http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -22,18 +22,20 @@ import org.apache.linkis.datasourcemanager.common.domain.DataSourceType;
 import java.util.List;
 
 public interface DataSourceTypeDao {
-    /**
-     * Get all types
-     *
-     * @return type entity list
-     */
-    List<DataSourceType> getAllTypes();
+  /**
+   * Get all types
+   *
+   * @return type entity list
+   */
+  List<DataSourceType> getAllTypes();
 
-    /**
-     * View
-     *
-     * @param typeId
-     * @return
-     */
-    DataSourceType selectOne(Long typeId);
+  /**
+   * View
+   *
+   * @param typeId
+   * @return
+   */
+  DataSourceType selectOne(Long typeId);
+
+  List<DataSourceType> getAllTypesEn();
 }

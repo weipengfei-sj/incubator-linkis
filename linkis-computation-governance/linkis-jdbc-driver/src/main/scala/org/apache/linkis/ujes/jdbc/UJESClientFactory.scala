@@ -5,26 +5,28 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
- *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- 
+
 package org.apache.linkis.ujes.jdbc
 
-import java.util
-import java.util.Properties
+import org.apache.linkis.common.utils.Logging
 import org.apache.linkis.httpclient.dws.authentication.StaticAuthenticationStrategy
 import org.apache.linkis.httpclient.dws.config.DWSClientConfigBuilder
 import org.apache.linkis.ujes.client.UJESClient
 import org.apache.linkis.ujes.jdbc.UJESSQLDriverMain._
-import org.apache.commons.lang.StringUtils
-import org.apache.linkis.common.utils.Logging
+
+import org.apache.commons.lang3.StringUtils
+
+import java.util
+import java.util.Properties
 
 object UJESClientFactory extends Logging {
 
@@ -33,13 +35,26 @@ object UJESClientFactory extends Logging {
   def getUJESClient(props: Properties): UJESClient = {
     val host = props.getProperty(HOST)
     val port = props.getProperty(PORT)
+    val user = props.getProperty(USER)
     val serverUrl = if (StringUtils.isNotBlank(port)) s"http://$host:$port" else "http://" + host
-    if (ujesClients.containsKey(serverUrl)) ujesClients.get(serverUrl)
-    else serverUrl.intern synchronized {
-      if (ujesClients.containsKey(serverUrl)) return ujesClients.get(serverUrl)
-      val ujesClient = createUJESClient(serverUrl, props)
-      ujesClients.put(serverUrl, ujesClient)
-      ujesClient
+    val uniqueKey = s"${serverUrl}_$user"
+    if (ujesClients.containsKey(uniqueKey)) {
+      logger.info("Clients with the same JDBC unique key({}) will get it directly", uniqueKey)
+      ujesClients.get(uniqueKey)
+    } else {
+      uniqueKey.intern synchronized {
+        if (ujesClients.containsKey(uniqueKey)) {
+          logger.info("Clients with the same JDBC unique key({}) will get it directly", uniqueKey)
+          return ujesClients.get(uniqueKey)
+        }
+        logger.info(
+          "The same Client does not exist for the JDBC unique key({}), a new Client will be created",
+          uniqueKey
+        )
+        val ujesClient = createUJESClient(serverUrl, props)
+        ujesClients.put(uniqueKey, ujesClient)
+        ujesClient
+      }
     }
   }
 
@@ -51,10 +66,9 @@ object UJESClientFactory extends Logging {
     clientConfigBuilder.setAuthenticationStrategy(new StaticAuthenticationStrategy())
     clientConfigBuilder.readTimeout(100000)
     clientConfigBuilder.maxConnectionSize(20)
-    clientConfigBuilder.readTimeout(10000)
     val params = props.getProperty(PARAMS)
     var versioned = false
-    if(StringUtils.isNotBlank(params)) {
+    if (StringUtils.isNotBlank(params)) {
       var enableDiscovery = false
       params.split(PARAM_SPLIT).foreach { kv =>
         kv.split(KV_SPLIT) match {

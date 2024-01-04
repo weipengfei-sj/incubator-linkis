@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *   http://www.apache.org/licenses/LICENSE-2.0
+ *    http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -30,14 +30,14 @@ import org.springframework.web.reactive.socket.server.upgrade.ReactorNettyReques
 @Configuration
 public class WebSocketServiceConfiguration {
 
-    public static final CommonVars<Integer> MAX_FRAME_LENGTH =
-            CommonVars$.MODULE$.apply("wds.linkis.gateway.conf.max.frame.length", 655350);
+  public static final CommonVars<Integer> MAX_FRAME_LENGTH =
+      CommonVars$.MODULE$.apply("wds.linkis.gateway.conf.max.frame.length", 655350);
 
-    @Bean(name = "customWebSocketService")
-    @Primary
-    public WebSocketService webSocketService() {
-        ReactorNettyRequestUpgradeStrategy strategy = new ReactorNettyRequestUpgradeStrategy();
-        strategy.setMaxFramePayloadLength(MAX_FRAME_LENGTH.getValue());
-        return new HandshakeWebSocketService(strategy);
-    }
+  @Bean(name = "customWebSocketService")
+  @Primary
+  public WebSocketService webSocketService() {
+    ReactorNettyRequestUpgradeStrategy strategy = new ReactorNettyRequestUpgradeStrategy();
+    strategy.setMaxFramePayloadLength(MAX_FRAME_LENGTH.getValue());
+    return new HandshakeWebSocketService(strategy);
+  }
 }

@@ -5,33 +5,45 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
- *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- 
+
 package org.apache.linkis.ecm.server.util
+
+import org.apache.linkis.bml.client.{BmlClient, BmlClientFactory}
+import org.apache.linkis.bml.protocol.BmlDownloadResponse
+import org.apache.linkis.common.utils.{HardwareUtils, Logging}
+import org.apache.linkis.ecm.errorcode.EngineconnServerErrorCodeSummary.FAILED_TO_DOWNLOAD
+import org.apache.linkis.ecm.server.conf.ECMConfiguration.{
+  ECM_MAX_CORES_AVAILABLE,
+  ECM_MAX_CREATE_INSTANCES,
+  ECM_MAX_MEMORY_AVAILABLE,
+  ECM_PROTECTED_CORES,
+  ECM_PROTECTED_INSTANCES,
+  ECM_PROTECTED_MEMORY,
+  ECM_STIMATE_ACTUAL_MEMORY_ENABLE
+}
+import org.apache.linkis.ecm.server.exception.ECMErrorException
+import org.apache.linkis.manager.common.entity.resource.LoadInstanceResource
+import org.apache.linkis.manager.common.protocol.bml.BmlResource
+import org.apache.linkis.rpc.Sender
+import org.apache.linkis.storage.fs.FileSystem
+
+import org.apache.commons.io.{FileUtils, IOUtils}
 
 import java.io.{File, InputStream}
 import java.util
 
-import org.apache.linkis.bml.client.{BmlClient, BmlClientFactory}
-import org.apache.linkis.bml.protocol.BmlDownloadResponse
-import org.apache.linkis.ecm.server.exception.ECMErrorException
-import org.apache.linkis.manager.common.protocol.bml.BmlResource
-import org.apache.linkis.rpc.Sender
-import org.apache.linkis.storage.fs.FileSystem
-import org.apache.commons.io.{FileUtils, IOUtils}
+import scala.collection.JavaConverters._
 
-import scala.collection.JavaConversions._
-
-
-object ECMUtils {
+object ECMUtils extends Logging {
 
   @volatile var bmlClient: BmlClient = _
   val lock = new Object()
@@ -44,13 +56,18 @@ object ECMUtils {
     } else {
       response = client.downloadShareResource(userName, resource.getResourceId, resource.getVersion)
     }
-    if (!response.isSuccess) throw new ECMErrorException(911115, "failed to downLoad(下载失败)")
+    if (!response.isSuccess) {
+      throw new ECMErrorException(FAILED_TO_DOWNLOAD.getErrorCode, FAILED_TO_DOWNLOAD.getErrorDesc)
+    }
     val map = new util.HashMap[String, Object]
-    map += "path" -> response.fullFilePath
-    map += "is" -> response.inputStream
+    map.put("path", response.fullFilePath)
+    map.put("is", response.inputStream)
+    map
   }
 
-  def downLoadBmlResourceToLocal(resource: BmlResource, userName: String, path: String)(implicit fs: FileSystem): Unit = {
+  def downLoadBmlResourceToLocal(resource: BmlResource, userName: String, path: String)(implicit
+      fs: FileSystem
+  ): Unit = {
     val is = download(resource, userName).get("is").asInstanceOf[InputStream]
     val os = FileUtils.openOutputStream(new File(path + File.separator + resource.getFileName))
     IOUtils.copy(is, os)
@@ -67,9 +84,37 @@ object ECMUtils {
     bmlClient
   }
 
+  private val address =
+    Sender.getThisInstance.substring(0, Sender.getThisInstance.lastIndexOf(":"))
 
-  private val address = Sender.getThisInstance.substring(0, Sender.getThisInstance.lastIndexOf(":"))
+  val initMaxResource: LoadInstanceResource = {
+    new LoadInstanceResource(inferDefaultMemory, ECM_MAX_CORES_AVAILABLE, ECM_MAX_CREATE_INSTANCES)
+  }
+
+  val initMinResource: LoadInstanceResource = {
+    new LoadInstanceResource(ECM_PROTECTED_MEMORY, ECM_PROTECTED_CORES, ECM_PROTECTED_INSTANCES)
+  }
 
   def getInstanceByPort(port: String): String = address + ":" + port
+
+  // ecm machine memory
+  def inferDefaultMemory(): Long = {
+    // if enable estimate actual memory
+    if (ECM_STIMATE_ACTUAL_MEMORY_ENABLE) {
+
+      // 90%
+      val totalByte = (HardwareUtils.getMaxMemory() * 0.9).asInstanceOf[Long]
+
+      val resultMemory = math.max(totalByte, ECM_PROTECTED_MEMORY)
+      // max of PhysicalMemory or ECM_PROTECTED_MEMORY
+      logger.info(
+        s"Ecm protected memory:${ECM_PROTECTED_MEMORY} byte, ecm machine physical max memory:${totalByte} byte, will use the lager one:${resultMemory}"
+      )
+      resultMemory
+
+    } else {
+      ECM_MAX_MEMORY_AVAILABLE
+    }
+  }
 
 }

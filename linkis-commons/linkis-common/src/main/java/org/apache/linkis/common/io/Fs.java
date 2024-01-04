@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *   http://www.apache.org/licenses/LICENSE-2.0
+ *    http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -26,33 +26,33 @@ import java.util.Map;
 
 public interface Fs extends Closeable {
 
-    public abstract void init(Map<String, String> properties) throws IOException;
+  void init(Map<String, String> properties) throws IOException;
 
-    public abstract String fsName();
+  String fsName();
 
-    String rootUserName();
+  String rootUserName();
 
-    FsPath get(String dest) throws IOException;
+  FsPath get(String dest) throws IOException;
 
-    public abstract InputStream read(FsPath dest) throws IOException;
+  InputStream read(FsPath dest) throws IOException;
 
-    public abstract OutputStream write(FsPath dest, boolean overwrite) throws IOException;
+  OutputStream write(FsPath dest, boolean overwrite) throws IOException;
 
-    boolean create(String dest) throws IOException;
+  boolean create(String dest) throws IOException;
 
-    List<FsPath> list(final FsPath path) throws IOException;
+  List<FsPath> list(final FsPath path) throws IOException;
 
-    public abstract boolean canRead(FsPath dest) throws IOException;
+  boolean canRead(FsPath dest) throws IOException;
 
-    public abstract boolean canWrite(FsPath dest) throws IOException;
+  boolean canWrite(FsPath dest) throws IOException;
 
-    public abstract boolean exists(FsPath dest) throws IOException;
+  boolean exists(FsPath dest) throws IOException;
 
-    public abstract boolean delete(FsPath dest) throws IOException;
+  boolean delete(FsPath dest) throws IOException;
 
-    public abstract boolean renameTo(FsPath oldDest, FsPath newDest) throws IOException;
+  boolean renameTo(FsPath oldDest, FsPath newDest) throws IOException;
 
-    public abstract boolean mkdir(FsPath dest) throws IOException;
+  boolean mkdir(FsPath dest) throws IOException;
 
-    public abstract boolean mkdirs(FsPath dest) throws IOException;
+  boolean mkdirs(FsPath dest) throws IOException;
 }

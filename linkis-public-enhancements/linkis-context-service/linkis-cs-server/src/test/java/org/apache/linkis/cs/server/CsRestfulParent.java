@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *   http://www.apache.org/licenses/LICENSE-2.0
+ *    http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -32,40 +32,39 @@ import javax.servlet.http.HttpServletRequest;
 
 public interface CsRestfulParent {
 
-    default HttpAnswerJob submitRestJob(
-            HttpServletRequest req, ServiceMethod method, Object... objects)
-            throws InterruptedException {
-        HttpAnswerJob job = (HttpAnswerJob) new RestJobBuilder().build(getServiceType());
-        HttpRequestProtocol protocol = job.getRequestProtocol();
-        protocol.setUsername(ModuleUserUtils.getOperationUser(req));
-        protocol.setServiceMethod(method);
-        protocol.setRequestObjects(objects);
-        getScheduler().submit(job);
-        return job;
+  default HttpAnswerJob submitRestJob(
+      HttpServletRequest req, ServiceMethod method, Object... objects) throws InterruptedException {
+    HttpAnswerJob job = (HttpAnswerJob) new RestJobBuilder().build(getServiceType());
+    HttpRequestProtocol protocol = job.getRequestProtocol();
+    protocol.setUsername(ModuleUserUtils.getOperationUser(req));
+    protocol.setServiceMethod(method);
+    protocol.setRequestObjects(objects);
+    getScheduler().submit(job);
+    return job;
+  }
+
+  default Message generateResponse(HttpAnswerJob job, String responseKey) {
+    HttpResponseProtocol responseProtocol = job.getResponseProtocol();
+    if (responseProtocol instanceof RestResponseProtocol) {
+      Message message = ((RestResponseProtocol) responseProtocol).get();
+      if (message == null) {
+        return Message.error("job execute timeout");
+      }
+      int status = ((RestResponseProtocol) responseProtocol).get().getStatus();
+      if (status == 1) {
+        // failed
+        return ((RestResponseProtocol) responseProtocol).get();
+      } else if (status == 0) {
+        Object data = job.getResponseProtocol().getResponseData();
+        return Message.ok().data(responseKey, data);
+      } else {
+
+      }
     }
+    return Message.ok();
+  }
 
-    default Message generateResponse(HttpAnswerJob job, String responseKey) {
-        HttpResponseProtocol responseProtocol = job.getResponseProtocol();
-        if (responseProtocol instanceof RestResponseProtocol) {
-            Message message = ((RestResponseProtocol) responseProtocol).get();
-            if (message == null) {
-                return Message.error("job execute timeout");
-            }
-            int status = ((RestResponseProtocol) responseProtocol).get().getStatus();
-            if (status == 1) {
-                // failed
-                return ((RestResponseProtocol) responseProtocol).get();
-            } else if (status == 0) {
-                Object data = job.getResponseProtocol().getResponseData();
-                return Message.ok().data(responseKey, data);
-            } else {
+  ServiceType getServiceType();
 
-            }
-        }
-        return Message.ok();
-    }
-
-    ServiceType getServiceType();
-
-    CsScheduler getScheduler();
+  CsScheduler getScheduler();
 }

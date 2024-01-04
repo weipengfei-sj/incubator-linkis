@@ -5,23 +5,25 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
- *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- 
+
 package org.apache.linkis.ecm.core.launch
 
-import java.io.OutputStream
-import org.apache.linkis.manager.engineplugin.common.launch.process.LaunchConstants
-import org.apache.commons.io.IOUtils
 import org.apache.linkis.ecm.core.conf.ECPCoreConf
+import org.apache.linkis.manager.engineplugin.common.launch.process.LaunchConstants
 
+import org.apache.commons.io.IOUtils
+
+import java.io.OutputStream
+import java.nio.charset.StandardCharsets
 
 trait ProcessEngineCommandBuilder {
 
@@ -54,16 +56,18 @@ abstract class ShellProcessEngineCommandBuilder extends ProcessEngineCommandBuil
   }
 
   def writeTo(output: OutputStream): Unit = {
-    IOUtils.write(sb, output)
+    IOUtils.write(sb, output, StandardCharsets.UTF_8)
   }
 
-  override def replaceExpansionMarker(value: String): String = value.replaceAll(LaunchConstants.EXPANSION_MARKER_LEFT, "\\${")
+  override def replaceExpansionMarker(value: String): String = value
+    .replaceAll(LaunchConstants.EXPANSION_MARKER_LEFT, "\\${")
     .replaceAll(LaunchConstants.EXPANSION_MARKER_RIGHT, "}")
+
 }
 
 class UnixProcessEngineCommandBuilder extends ShellProcessEngineCommandBuilder {
 
-  newLine("#!/bin/bash")
+  newLine("#!/usr/bin/env bash")
 
   if (ECPCoreConf.CORE_DUMP_DISABLE) {
     newLine("ulimit -c 0")
@@ -73,7 +77,7 @@ class UnixProcessEngineCommandBuilder extends ShellProcessEngineCommandBuilder {
     newLine("linkis_engineconn_errorcode=$?")
     newLine("if [ $linkis_engineconn_errorcode -ne 0 ]")
     newLine("then")
-    newLine("  cat ${LOG_DIRS}/stderr")
+    newLine("  timeout 10 tail -1000 ${LOG_DIRS}/stderr")
     newLine("  exit $linkis_engineconn_errorcode")
     newLine("fi")
   }
@@ -83,7 +87,9 @@ class UnixProcessEngineCommandBuilder extends ShellProcessEngineCommandBuilder {
     addErrorCheck()
   }
 
-  override def setEnv(key: String, value: String): Unit = newLine(Array("export ", key, "=\"", value, "\""))
+  override def setEnv(key: String, value: String): Unit = newLine(
+    Array("export ", key, "=\"", value, "\"")
+  )
 
   override def link(fromPath: String, toPath: String): Unit = {
     newLine(Array("ln -sf \"", fromPath, "\" \"", toPath, "\""))
@@ -94,4 +100,5 @@ class UnixProcessEngineCommandBuilder extends ShellProcessEngineCommandBuilder {
     newLine(Array("mkdir -p ", dir))
     addErrorCheck()
   }
+
 }

@@ -5,35 +5,43 @@
  * The ASF licenses this file to You under the Apache License, Version 2.0
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
- * 
- *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
+ *    http://www.apache.org/licenses/LICENSE-2.0
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
- 
+
 package org.apache.linkis.ecm.server.service.impl
 
-import java.util
-import java.util.Collections
-
+import org.apache.linkis.common.conf.Configuration
 import org.apache.linkis.common.utils.{Logging, Utils}
 import org.apache.linkis.ecm.core.listener.{ECMEvent, ECMEventListener}
 import org.apache.linkis.ecm.server.conf.ECMConfiguration._
 import org.apache.linkis.ecm.server.listener.{ECMClosedEvent, ECMReadyEvent}
 import org.apache.linkis.ecm.server.service.ECMRegisterService
+import org.apache.linkis.ecm.server.util.ECMUtils
 import org.apache.linkis.manager.common.entity.resource._
-import org.apache.linkis.manager.common.protocol.em.{RegisterEMRequest, RegisterEMResponse, StopEMRequest}
+import org.apache.linkis.manager.common.protocol.em.{
+  RegisterEMRequest,
+  RegisterEMResponse,
+  StopEMRequest
+}
 import org.apache.linkis.manager.label.constant.LabelKeyConstant
+import org.apache.linkis.manager.label.entity.SerializableLabel
 import org.apache.linkis.rpc.Sender
 
+import java.util
+import java.util.Collections
 
 class DefaultECMRegisterService extends ECMRegisterService with ECMEventListener with Logging {
 
-  private implicit def readyEvent2RegisterECMRequest(event: ECMReadyEvent): RegisterEMRequest = {
+  private var unRegisterFlag = false
+
+  private def readyEvent2RegisterECMRequest(event: ECMReadyEvent): RegisterEMRequest = {
     val request = new RegisterEMRequest
     val instance = Sender.getThisServiceInstance
     request.setUser(Utils.getJvmUser)
@@ -44,19 +52,32 @@ class DefaultECMRegisterService extends ECMRegisterService with ECMEventListener
     request
   }
 
-  private def getLabelsFromArgs(params: Array[String]): util.Map[String, AnyRef] = {
-    import scala.collection.JavaConversions._
+  def getLabelsFromArgs(params: Array[String]): util.Map[String, AnyRef] = {
+    import scala.collection.JavaConverters._
     val labelRegex = """label\.(.+)\.(.+)=(.+)""".r
     val labels = new util.HashMap[String, AnyRef]()
     // TODO: magic
-    labels += LabelKeyConstant.SERVER_ALIAS_KEY -> Collections.singletonMap("alias", ENGINE_CONN_MANAGER_SPRING_NAME)
+    labels.asScala += LabelKeyConstant.SERVER_ALIAS_KEY -> Collections.singletonMap(
+      "alias",
+      ENGINE_CONN_MANAGER_SPRING_NAME
+    )
+
+    if (Configuration.IS_MULTIPLE_YARN_CLUSTER.getValue.asInstanceOf[Boolean]) {
+      labels.asScala += LabelKeyConstant.YARN_CLUSTER_KEY ->
+        (ECM_YARN_CLUSTER_TYPE + "_" + ECM_YARN_CLUSTER_NAME)
+    }
     // TODO: group  by key
     labels
   }
 
-  private def getEMRegiterResourceFromConfiguration: NodeResource = {
-    val maxResource = new LoadInstanceResource(ECM_MAX_MEMORY_AVAILABLE, ECM_MAX_CORES_AVAILABLE, ECM_MAX_CREATE_INSTANCES)
-    val minResource = new LoadInstanceResource(ECM_PROTECTED_MEMORY, ECM_PROTECTED_CORES, ECM_PROTECTED_INSTANCES)
+  def getEMRegiterResourceFromConfiguration: NodeResource = {
+    val maxResource = new LoadInstanceResource(
+      ECMUtils.inferDefaultMemory(),
+      ECM_MAX_CORES_AVAILABLE,
+      ECM_MAX_CREATE_INSTANCES
+    )
+    val minResource =
+      new LoadInstanceResource(ECM_PROTECTED_MEMORY, ECM_PROTECTED_CORES, ECM_PROTECTED_INSTANCES)
     val nodeResource = new CommonNodeResource
     nodeResource.setResourceType(ResourceType.LoadInstance)
     nodeResource.setExpectedResource(Resource.getZeroResource(maxResource))
@@ -69,12 +90,12 @@ class DefaultECMRegisterService extends ECMRegisterService with ECMEventListener
   }
 
   override def onEvent(event: ECMEvent): Unit = event match {
-    case event: ECMReadyEvent => registerECM(event)
-    case event: ECMClosedEvent => unRegisterECM(event)
+    case event: ECMReadyEvent => registerECM(readyEvent2RegisterECMRequest(event))
+    case event: ECMClosedEvent => unRegisterECM(closeEvent2StopECMRequest(event))
     case _ =>
   }
 
-  private implicit def closeEvent2StopECMRequest(event: ECMClosedEvent): StopEMRequest = {
+  private def closeEvent2StopECMRequest(event: ECMClosedEvent): StopEMRequest = {
     val request = new StopEMRequest
     val instance = Sender.getThisServiceInstance
     request.setUser(Utils.getJvmUser)
@@ -82,28 +103,32 @@ class DefaultECMRegisterService extends ECMRegisterService with ECMEventListener
     request
   }
 
-  override def registerECM(request: RegisterEMRequest): Unit = Utils.tryCatch{
-    info("start register ecm")
-    val response = Sender.getSender(MANAGER_SPRING_NAME).ask(request)
+  override def registerECM(request: RegisterEMRequest): Unit = Utils.tryCatch {
+    logger.info("start register ecm")
+    val response = Sender.getSender(MANAGER_SERVICE_NAME).ask(request)
     response match {
-      case RegisterEMResponse(isSuccess, msg) =>
-        if (!isSuccess) {
-          error(s"Failed to register info to linkis manager, reason: $msg")
+      case registerEMResponse: RegisterEMResponse =>
+        if (!registerEMResponse.getIsSuccess) {
+          logger.error(
+            s"Failed to register info to linkis manager, reason: ${registerEMResponse.getMsg}"
+          )
           System.exit(1)
         }
-      case  _ =>
-        error(s"Failed to register info to linkis manager, get response is $response")
+      case _ =>
+        logger.error(s"Failed to register info to linkis manager, get response is $response")
         System.exit(1)
     }
-  }{ t =>
-    error(s"Failed to register info to linkis manager: ", t)
+  } { t =>
+    logger.error(s"Failed to register info to linkis manager: ", t)
     System.exit(1)
   }
 
   override def unRegisterECM(request: StopEMRequest): Unit = {
-    info("start unRegister ecm")
-    Sender.getSender(MANAGER_SPRING_NAME).send(request)
+    logger.info("start unRegister ecm")
+    if (!unRegisterFlag) {
+      Sender.getSender(MANAGER_SERVICE_NAME).send(request)
+    }
+    unRegisterFlag = true
   }
 
 }
-

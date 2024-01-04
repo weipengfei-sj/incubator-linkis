@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *   http://www.apache.org/licenses/LICENSE-2.0
+ *    http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -19,15 +19,15 @@ package org.apache.linkis.datasourcemanager.core.formdata;
 
 /** Transformer of multipart form */
 public interface MultiPartFormDataTransformer {
-    /**
-     * Transform the form data to object and validate its fields
-     *
-     * @param formData form data
-     * @param clazz clazz
-     * @param beanValidator validator
-     * @param <T>
-     * @return
-     * @throws ValidationException
-     * @throws ErrorException
-     */
+  /**
+   * Transform the form data to object and validate its fields
+   *
+   * @param formData form data
+   * @param clazz clazz
+   * @param beanValidator validator
+   * @param <T>
+   * @return
+   * @throws ValidationException
+   * @throws ErrorException
+   */
 }

@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *   http://www.apache.org/licenses/LICENSE-2.0
+ *    http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -19,17 +19,17 @@ package org.apache.linkis.protocol.usercontrol;
 
 public class RequestUserWorkspace implements UserControlLoginProtocol {
 
-    private String userName;
+  private String userName;
 
-    public RequestUserWorkspace(String userName) {
-        this.userName = userName;
-    }
+  public RequestUserWorkspace(String userName) {
+    this.userName = userName;
+  }
 
-    public String getUserName() {
-        return userName;
-    }
+  public String getUserName() {
+    return userName;
+  }
 
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
+  public void setUserName(String userName) {
+    this.userName = userName;
+  }
 }

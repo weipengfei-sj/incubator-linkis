@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *   http://www.apache.org/licenses/LICENSE-2.0
+ *    http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -19,17 +19,17 @@ package org.apache.linkis.cs.server.protocol;
 
 public interface HttpResponseProtocol<T> extends HttpProtocol {
 
-    void waitForComplete() throws InterruptedException;
+  void waitForComplete() throws InterruptedException;
 
-    void waitTimeEnd(long mills) throws InterruptedException;
+  void waitTimeEnd(long mills) throws InterruptedException;
 
-    void notifyJob();
+  void notifyJob();
 
-    T get();
+  T get();
 
-    void set(T t);
+  void set(T t);
 
-    Object getResponseData();
+  Object getResponseData();
 
-    void setResponseData(Object responseData);
+  void setResponseData(Object responseData);
 }

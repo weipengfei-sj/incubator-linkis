@@ -6,7 +6,7 @@
  * (the "License"); you may not use this file except in compliance with
  * the License.  You may obtain a copy of the License at
  *
- *   http://www.apache.org/licenses/LICENSE-2.0
+ *    http://www.apache.org/licenses/LICENSE-2.0
  *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
@@ -20,61 +20,109 @@ package org.apache.linkis.manager.persistence.impl;
 import org.apache.linkis.manager.common.entity.persistence.PersistenceLock;
 import org.apache.linkis.manager.dao.LockManagerMapper;
 import org.apache.linkis.manager.persistence.LockManagerPersistence;
+import org.apache.linkis.manager.util.PersistenceManagerConf;
 
-import org.springframework.dao.DataAccessException;
+import org.apache.commons.lang3.StringUtils;
+
+import java.util.Date;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.List;
-
 public class DefaultLockManagerPersistence implements LockManagerPersistence {
 
-    private static final Logger logger =
-            LoggerFactory.getLogger(DefaultLockManagerPersistence.class);
+  private static final Logger logger = LoggerFactory.getLogger(DefaultLockManagerPersistence.class);
 
-    private LockManagerMapper lockManagerMapper;
+  private LockManagerMapper lockManagerMapper;
 
-    public LockManagerMapper getLockManagerMapper() {
-        return lockManagerMapper;
+  public LockManagerMapper getLockManagerMapper() {
+    return lockManagerMapper;
+  }
+
+  public void setLockManagerMapper(LockManagerMapper lockManagerMapper) {
+    this.lockManagerMapper = lockManagerMapper;
+  }
+
+  @Override
+  public Boolean lock(PersistenceLock persistenceLock, Long timeOut) {
+    try {
+      return tryQueueLock(persistenceLock, timeOut);
+    } catch (Exception e) {
+      logger.error("Failed to get queue lock", e);
+      if (persistenceLock.getId() > 0) {
+        unlock(persistenceLock);
+      }
     }
+    return false;
+  }
 
-    public void setLockManagerMapper(LockManagerMapper lockManagerMapper) {
-        this.lockManagerMapper = lockManagerMapper;
+  private boolean tryQueueLock(PersistenceLock persistenceLock, Long timeOut) {
+    long startTime = System.currentTimeMillis();
+    if (StringUtils.isBlank(persistenceLock.getLockObject())) {
+      return true;
     }
-
-    @Override
-    public Boolean lock(PersistenceLock persistenceLock, Long timeOut) {
-        long startTime = System.currentTimeMillis();
-        Boolean isLocked = tryLock(persistenceLock, timeOut);
-        while (!isLocked && System.currentTimeMillis() - startTime < timeOut) {
-            try {
-                Thread.sleep(1000); // TODO
-                isLocked = tryLock(persistenceLock, timeOut);
-            } catch (InterruptedException e) {
-                logger.warn("lock waiting interrupted", e);
+    persistenceLock.setTimeOut(timeOut);
+    String syncLocker = persistenceLock.getLockObject().intern();
+    synchronized (syncLocker) {
+      // insert lock The order is determined by the id auto-incrementing number
+      do {
+        lockManagerMapper.lock(persistenceLock);
+      } while (persistenceLock.getId() < 0);
+    }
+    boolean isLocked = isAcquireLock(persistenceLock);
+    while (!isLocked && System.currentTimeMillis() - startTime < timeOut) {
+      try {
+        if (PersistenceManagerConf.Distributed_lock_request_sync_enabled) {
+          synchronized (syncLocker) {
+            syncLocker.wait(PersistenceManagerConf.Distributed_lock_request_interval);
+            isLocked = isAcquireLock(persistenceLock);
+            if (isLocked) {
+              syncLocker.notifyAll();
             }
+          }
+        } else {
+          Thread.sleep(PersistenceManagerConf.Distributed_lock_request_interval);
+          isLocked = isAcquireLock(persistenceLock);
         }
-        return isLocked;
+      } catch (Exception e) {
+        logger.info("lock waiting failed", e);
+      }
     }
+    if (!isLocked) {
+      logger.error(
+          "Failed to get lock by time out {} s", (System.currentTimeMillis() - startTime) / 1000);
+      unlock(persistenceLock);
+    }
+    return isLocked;
+  }
 
-    private boolean tryLock(PersistenceLock persistenceLock, Long timeOut) {
-        try {
-            lockManagerMapper.lock(persistenceLock.getLockObject(), timeOut);
-            return true;
-        } catch (DataAccessException e) {
-            logger.warn("Failed to obtain lock:" + persistenceLock.getLockObject());
-            return false;
-        }
+  private boolean isAcquireLock(PersistenceLock persistenceLock) {
+    Integer minimumOrder =
+        lockManagerMapper.getMinimumOrder(persistenceLock.getLockObject(), persistenceLock.getId());
+    if (null == minimumOrder || minimumOrder >= persistenceLock.getId()) {
+      return true;
+    } else {
+      return false;
     }
+  }
 
-    @Override
-    public void unlock(PersistenceLock persistenceLock) {
-        lockManagerMapper.unlock(persistenceLock.getLockObject());
+  @Override
+  public void unlock(PersistenceLock persistenceLock) {
+    if (persistenceLock.getId() > 0) {
+      lockManagerMapper.unlock(persistenceLock.getId());
+    } else {
+      logger.error("Unlock{} id cannot be null", persistenceLock.getLockObject());
     }
+  }
 
-    @Override
-    public List<PersistenceLock> getAll() {
-        return lockManagerMapper.getAll();
-    }
+  @Override
+  public List<PersistenceLock> getAll() {
+    return lockManagerMapper.getAll();
+  }
+
+  @Override
+  public List<PersistenceLock> getTimeOutLocks(Date endDate) {
+    return lockManagerMapper.getTimeOutLocks(endDate);
+  }
 }
